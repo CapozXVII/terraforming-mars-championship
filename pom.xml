@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>it.capozxvii</groupId>
 	<artifactId>terraforming-mars</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>terraforming-mars</name>
 	<description>terraforming-mars</description>
 	<properties>
@@ -167,6 +167,7 @@
 						<configuration>
 							<excludes>
 								<exclude>it/capozxvii/terraformingmars/TerraformingMarsApplication.class</exclude>
+								<exclude>it/capozxvii/terraformingmars/model/enums/**</exclude>
 							</excludes>
 							<rules>
 								<rule>

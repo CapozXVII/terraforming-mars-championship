@@ -7,25 +7,91 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.capozxvii.terraformingmars.abstracts.AbstractServiceTest;
 import it.capozxvii.terraformingmars.model.dto.GameDto;
+import it.capozxvii.terraformingmars.model.dto.PointsDto;
+import it.capozxvii.terraformingmars.model.enums.corporation.ColoniesCorporations;
+import it.capozxvii.terraformingmars.model.enums.corporation.PreludeCorporations;
+import it.capozxvii.terraformingmars.model.enums.prelude.PreludeEnum;
 import it.capozxvii.terraformingmars.model.jpa.Game;
+import it.capozxvii.terraformingmars.model.jpa.Player;
+import it.capozxvii.terraformingmars.model.jpa.Points;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class GameServiceTest extends AbstractServiceTest {
 
+    private Player anotherGenericPlayer;
+    private Player anotherGenericPlayer2;
+
+    @BeforeAll
+    void createTwoGenericPlayers() {
+
+        anotherGenericPlayer = playerRepository.save(
+                createPlayer("anotherGenericPlayer", "anotherGenericPlayer"));
+        anotherGenericPlayer2 = playerRepository.save(
+                createPlayer("anotherGenericPlayer2", "anotherGenericPlayer2"));
+    }
+
     @Test
     void insertGameTest() {
         LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        GameDto gameDto = assertDoesNotThrow(
-                () -> gameService.insertGame(createGameDto(now, "The house", genericChampionship.getId())));
 
-        assertNotNull(gameDto.getId());
-        assertTrue(gameDto.getId() > 0);
-        assertEquals(genericChampionship.getId(), gameDto.getChampionshipId());
-        assertEquals(now, gameDto.getGameDate());
-        assertEquals("The house", gameDto.getLocation());
+        List<PointsDto> pointsDtos = new ArrayList<>();
+        pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
+                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.BIOLAB,
+                                       null,
+                                       createPlayerDto("genericPlayer", null,
+                                                       genericPlayer.getId())));
+        pointsDtos.add(
+                createPointsDto(27, 0, 0, 0, 5, 14, ColoniesCorporations.ARKLIGHT,
+                                PreludeEnum.LOAN,
+                                PreludeEnum.BUSINESS_EMPIRE,
+                                null,
+                                createPlayerDto("anotherGenericPlayer", null,
+                                                anotherGenericPlayer.getId())));
+        pointsDtos.add(
+                createPointsDto(40, 0, 0, 0, 5, 14, PreludeCorporations.VALLEY_TRUST,
+                                PreludeEnum.POWER_GENERATION,
+                                PreludeEnum.UNMI_CONTRACTOR,
+                                Map.of("aCategory", 20),
+                                createPlayerDto("anotherGenericPlayer2", null,
+                                                anotherGenericPlayer2.getId())));
+        GameDto gameDto = createGameDto(now, "The house", genericChampionship.getId());
+        gameDto.setPoints(pointsDtos);
+
+        GameDto savedGameDto = assertDoesNotThrow(
+                () -> gameService.insertGame(gameDto));
+        assertNotNull(savedGameDto.getId());
+        assertTrue(savedGameDto.getId() > 0);
+        assertEquals(genericChampionship.getId(), savedGameDto.getChampionshipId());
+        assertEquals(now, savedGameDto.getGameDate());
+        assertEquals("The house", savedGameDto.getLocation());
+        Optional<Game> gameEntity = gameRepository.findById(savedGameDto.getId());
+        assertTrue(gameEntity.isPresent());
+        assertEquals(3, gameEntity.get().getPoints().size());
+        Set<Points> savedPoints = gameEntity.get().getPoints();
+        filterAndCheckPoints(savedPoints, ColoniesCorporations.STORMCRAFT_INCORPORATED, 17, 6, 8, 0, 5, 42,
+                             PreludeEnum.INDUSTRIAL_ZONE,
+                             PreludeEnum.BIOLAB,
+                             null,
+                             genericPlayer);
+        filterAndCheckPoints(savedPoints, ColoniesCorporations.ARKLIGHT, 27, 0, 0, 0, 5, 14,
+                             PreludeEnum.LOAN,
+                             PreludeEnum.BUSINESS_EMPIRE,
+                             null,
+                             anotherGenericPlayer);
+        filterAndCheckPoints(savedPoints, PreludeCorporations.VALLEY_TRUST, 40, 0, 0, 0, 5, 14,
+                             PreludeEnum.POWER_GENERATION,
+                             PreludeEnum.UNMI_CONTRACTOR,
+                             Map.of("aCategory", 20),
+                             anotherGenericPlayer2);
     }
 
     @Test
