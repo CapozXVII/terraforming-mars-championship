@@ -3,6 +3,7 @@ package it.capozxvii.terraformingmars.model.dto;
 import it.capozxvii.terraformingmars.model.jpa.Game;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,4 +22,5 @@ public class GameDto extends AbstractDto implements Serializable {
     private String location;
     private LocalDateTime gameDate;
     private Long championshipId;
+    private List<PointsDto> points;
 }

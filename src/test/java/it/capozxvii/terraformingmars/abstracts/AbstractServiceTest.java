@@ -13,7 +13,6 @@ import it.capozxvii.terraformingmars.service.IChampionshipService;
 import it.capozxvii.terraformingmars.service.IDraftingService;
 import it.capozxvii.terraformingmars.service.IGameService;
 import it.capozxvii.terraformingmars.service.IPlayerService;
-import it.capozxvii.terraformingmars.service.IPointsService;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -33,10 +32,7 @@ public abstract class AbstractServiceTest extends AbstractTest {
     @Autowired
     protected IPlayerService playerService;
     @Autowired
-    protected IPointsService pointsService;
-    @Autowired
     protected IDraftingService previsionService;
-
     @Autowired
     protected ChampionshipRepository championshipRepository;
     @Autowired

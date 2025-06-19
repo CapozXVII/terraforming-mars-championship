@@ -6,7 +6,6 @@ import it.capozxvii.terraformingmars.service.IChampionshipService;
 import it.capozxvii.terraformingmars.service.IDraftingService;
 import it.capozxvii.terraformingmars.service.IGameService;
 import it.capozxvii.terraformingmars.service.IPlayerService;
-import it.capozxvii.terraformingmars.service.IPointsService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +31,6 @@ public abstract class AbstractControllerTest extends AbstractTest {
 
     @MockBean
     protected IPlayerService playerService;
-
-    @MockBean
-    protected IPointsService pointsService;
 
     @MockBean
     protected IDraftingService previsionService;

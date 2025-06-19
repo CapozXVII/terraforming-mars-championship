@@ -8,8 +8,10 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        componentModel = MappingConstants.ComponentModel.SPRING, uses = {GameMapper.class})
 public interface ChampionshipMapper {
+
     Championship toEntity(ChampionshipDto championshipDto);
 
     @AfterMapping
