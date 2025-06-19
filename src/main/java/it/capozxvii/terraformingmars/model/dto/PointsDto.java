@@ -31,17 +31,4 @@ public class PointsDto extends AbstractDto implements Serializable {
     private PlayerDto player;
     private GameDto game;
     private int totalPoints;
-
-    public int getTotalPoints() {
-        return
-                terraformingRating
-                + greenery
-                + city
-                + milestones
-                + awards
-                + cards
-                + (otherCategories != null
-                   ? otherCategories.values().stream().mapToInt(Integer::valueOf).sum()
-                   : 0);
-    }
 }
