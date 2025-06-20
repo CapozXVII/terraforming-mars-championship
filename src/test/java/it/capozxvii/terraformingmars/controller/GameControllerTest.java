@@ -12,10 +12,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import it.capozxvii.terraformingmars.abstracts.AbstractControllerTest;
 import it.capozxvii.terraformingmars.model.dto.GameDto;
+import it.capozxvii.terraformingmars.model.dto.PointsDto;
+import it.capozxvii.terraformingmars.model.enums.corporation.ColoniesCorporations;
+import it.capozxvii.terraformingmars.model.enums.prelude.PreludeEnum;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,7 +33,14 @@ class GameControllerTest extends AbstractControllerTest {
         LocalDateTime now = LocalDateTime.now();
 
         GameDto gameDto = createGameDto(now, "Clank House", 1L);
-
+        List<PointsDto> pointsDtos = new ArrayList<>();
+        pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
+                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.BIOLAB,
+                                       null,
+                                       createPlayerDto("genericPlayer", null,
+                                                       1L)));
+        gameDto.setPoints(pointsDtos);
         when(gameService.insertGame(gameDto)).thenAnswer(im -> {
             gameDto.setId(1L);
             return gameDto;
@@ -56,6 +67,14 @@ class GameControllerTest extends AbstractControllerTest {
         LocalDateTime now = LocalDateTime.now();
 
         GameDto gameDto = createGameDto(now, "Clank House", 111111111L);
+        List<PointsDto> pointsDtos = new ArrayList<>();
+        pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
+                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.BIOLAB,
+                                       null,
+                                       createPlayerDto("genericPlayer", null,
+                                                       1L)));
+        gameDto.setPoints(pointsDtos);
         doThrow(new TerraformingMarsException("Championship with id [111111111] not found")).when(gameService)
                 .insertGame(gameDto);
 
@@ -75,7 +94,14 @@ class GameControllerTest extends AbstractControllerTest {
         LocalDateTime now = LocalDateTime.now();
 
         GameDto gameDto = createGameDto(now, "Clank House", 1L);
-
+        List<PointsDto> pointsDtos = new ArrayList<>();
+        pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
+                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.BIOLAB,
+                                       null,
+                                       createPlayerDto("genericPlayer", null,
+                                                       1L)));
+        gameDto.setPoints(pointsDtos);
         when(gameService.editGame(gameDto)).thenAnswer(im -> {
             gameDto.setId(1L);
             return gameDto;
@@ -99,6 +125,14 @@ class GameControllerTest extends AbstractControllerTest {
         LocalDateTime now = LocalDateTime.now();
 
         GameDto gameDto = createGameDto(now, "Clank House", 111111111L);
+        List<PointsDto> pointsDtos = new ArrayList<>();
+        pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
+                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.BIOLAB,
+                                       null,
+                                       createPlayerDto("genericPlayer", null,
+                                                       1L)));
+        gameDto.setPoints(pointsDtos);
         doThrow(new TerraformingMarsException("Championship with id [111111111] not found")).when(gameService)
                 .editGame(gameDto);
 
@@ -148,5 +182,30 @@ class GameControllerTest extends AbstractControllerTest {
                 new TypeReference<CollectionWrapper<GameDto>>() {
                 }).getResponseObject();
         assertTrue(res.isEmpty());
+    }
+    
+    @Test
+    void gamesFromChampionshipTest() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        GameDto gameDto = createGameDto(now, "Clank House", 1L);
+        List<PointsDto> pointsDtos = new ArrayList<>();
+        pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
+                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.BIOLAB,
+                                       null,
+                                       createPlayerDto("genericPlayer", null,
+                                                       1L)));
+        gameDto.setPoints(pointsDtos);
+        when(gameService.findByChampionshipId(1L)).thenReturn(List.of(gameDto));
+        List<GameDto> res = MAPPER.readValue(mvc.perform(
+                        get("/game/games-of-championship").param("championshipId", "1")
+                                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk()).andReturn()
+                .getResponse().getContentAsString(),
+                new TypeReference<CollectionWrapper<GameDto>>() {
+                }).getResponseObject();
+        
+        assertEquals(1, res.size());
+        assertEquals(gameDto, res.getFirst());
     }
 }

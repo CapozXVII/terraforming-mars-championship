@@ -9,4 +9,6 @@ public interface IGameService {
     GameDto editGame(GameDto gameDto);
 
     List<GameDto> findByLocation(String location);
+
+    List<GameDto> findByChampionshipId(Long championshipId);
 }
