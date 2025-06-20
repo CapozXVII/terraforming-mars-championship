@@ -38,3 +38,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
+    - name: Publish Pitest Report
+      uses: Bonajo/pitest-report-action@v1.0.0
+      with:
+        file: target/pit-reports/mutations.xml
