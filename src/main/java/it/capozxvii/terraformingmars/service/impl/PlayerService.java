@@ -8,6 +8,8 @@ import it.capozxvii.terraformingmars.repository.PlayerRepository;
 import it.capozxvii.terraformingmars.service.IPlayerService;
 import it.capozxvii.terraformingmars.util.Utils;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -54,5 +56,11 @@ public class PlayerService implements IPlayerService {
     @Transactional
     public PlayerDto getPlayerById(final PlayerID playerID) throws TerraformingMarsException {
         return playerMapper.toDto(utils.checkAndGetPlayer(playerRepository, playerID));
+    }
+
+    @Override
+    @Transactional
+    public List<PlayerDto> getAllPlayers() {
+        return playerRepository.findAll().stream().map(playerMapper::toDto).collect(Collectors.toList());
     }
 }
