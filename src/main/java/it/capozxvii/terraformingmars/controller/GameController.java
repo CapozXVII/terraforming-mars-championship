@@ -59,4 +59,12 @@ public class GameController {
                     .body(CollectionWrapper.<GameDto>builder().message(e.getMessage()).build());
         }
     }
+
+    @GetMapping("/games-of-championship")
+    public ResponseEntity<CollectionWrapper<GameDto>> gamesOfChampionship(
+            @RequestParam("championshipId") final Long championshipId) {
+        return ResponseEntity.ok().body((CollectionWrapper.<GameDto>builder()
+                .responseObject(gameService.findByChampionshipId(championshipId))
+                .build()));
+    }
 }

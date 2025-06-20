@@ -11,6 +11,7 @@ import it.capozxvii.terraformingmars.model.dto.PointsDto;
 import it.capozxvii.terraformingmars.model.enums.corporation.ColoniesCorporations;
 import it.capozxvii.terraformingmars.model.enums.corporation.PreludeCorporations;
 import it.capozxvii.terraformingmars.model.enums.prelude.PreludeEnum;
+import it.capozxvii.terraformingmars.model.jpa.Championship;
 import it.capozxvii.terraformingmars.model.jpa.Game;
 import it.capozxvii.terraformingmars.model.jpa.Player;
 import it.capozxvii.terraformingmars.model.jpa.Points;
@@ -21,9 +22,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+@Slf4j
 class GameServiceTest extends AbstractServiceTest {
 
     private Player anotherGenericPlayer;
@@ -129,5 +132,66 @@ class GameServiceTest extends AbstractServiceTest {
         filterAndCheckGameDtos(gameDtos, game2);
         filterAndCheckGameDtos(gameDtos, game3);
         filterAndCheckGameDtos(gameDtos, game4);
+    }
+
+    @Test
+    void findByChampionshipIdTest() {
+
+        Championship champ =
+                championshipRepository.save(createChampionship("Championship,", LocalDateTime.of(2000, 1, 1, 1, 1),
+                                                               LocalDateTime.of(2020, 1, 1, 1, 1)));
+
+        Points points1 = createPoints(17, 6, 8, 0, 5, 42, null, ColoniesCorporations.STORMCRAFT_INCORPORATED,
+                                      PreludeEnum.INDUSTRIAL_ZONE,
+                                      PreludeEnum.BIOLAB,
+                                      genericPlayer);
+        Game game1 = createGame("House of championship", champ,
+                                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        game1 = gameRepository.save(game1);
+        points1.setGame(game1);
+        pointsRepository.save(points1);
+
+        Points points2 = createPoints(50, 6, 8, 0, 5, 42, null, ColoniesCorporations.POSEIDON,
+                                      PreludeEnum.METAL_RICH_ASTEROID,
+                                      PreludeEnum.BIOLAB,
+                                      anotherGenericPlayer);
+        Game game2 = createGame("House of championship2", champ,
+                                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        game2 = gameRepository.save(game2);
+        points2.setGame(game2);
+        pointsRepository.save(points2);
+
+        Points points3 = createPoints(500, 6, 8, 0, 5, 42, null, ColoniesCorporations.ARKLIGHT,
+                                      PreludeEnum.METAL_RICH_ASTEROID,
+                                      PreludeEnum.BIOLAB,
+                                      anotherGenericPlayer2);
+        Game game3 = createGame("House of championship3", champ,
+                                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        game3 = gameRepository.save(game3);
+        points3.setGame(game3);
+        pointsRepository.save(points3);
+
+        List<GameDto> res = gameService.findByChampionshipId(champ.getId());
+
+        assertEquals(3, res.size());
+        filterAndCheckGameDtos(res, game1);
+        filterAndCheckGameDtos(res, game2);
+        filterAndCheckGameDtos(res, game3);
+        checkPointsDto(ColoniesCorporations.STORMCRAFT_INCORPORATED, 17, 6, 8, 0, 5, 42,
+                       PreludeEnum.INDUSTRIAL_ZONE,
+                       PreludeEnum.BIOLAB,
+                       null,
+                       genericPlayer.getId(), res.getFirst().getPoints().getFirst());
+        checkPointsDto(ColoniesCorporations.POSEIDON, 50, 6, 8, 0, 5, 42,
+                       PreludeEnum.METAL_RICH_ASTEROID,
+                       PreludeEnum.BIOLAB,
+                       null,
+                       anotherGenericPlayer.getId(), res.get(1).getPoints().getFirst());
+        checkPointsDto(ColoniesCorporations.ARKLIGHT, 500, 6, 8, 0, 5, 42,
+                       PreludeEnum.METAL_RICH_ASTEROID,
+                       PreludeEnum.BIOLAB,
+                       null,
+                       anotherGenericPlayer2.getId(), res.get(2).getPoints().getFirst());
+
     }
 }

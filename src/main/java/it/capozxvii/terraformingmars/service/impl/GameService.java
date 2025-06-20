@@ -80,4 +80,11 @@ public class GameService implements IGameService {
     public List<GameDto> findByLocation(final String location) {
         return gameRepository.findByLocation(location).stream().map(gameMapper::toDto).collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public List<GameDto> findByChampionshipId(final Long championshipId) {
+        return gameRepository.findByChampionshipId(championshipId).stream().map(gameMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }
