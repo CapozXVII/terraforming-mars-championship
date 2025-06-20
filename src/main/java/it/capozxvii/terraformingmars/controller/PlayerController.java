@@ -6,6 +6,7 @@ import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.service.IPlayerService;
 import it.capozxvii.terraformingmars.util.Message;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
+import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,5 +71,11 @@ public class PlayerController {
             return ResponseEntity.internalServerError().body(SimpleWrapper.<PlayerDto>builder().message(
                     terraformingMarsException.getMessage()).build());
         }
+    }
+
+    @GetMapping("/all-players")
+    public ResponseEntity<CollectionWrapper<PlayerDto>> getAllPlayers() {
+        return ResponseEntity.ok(
+                CollectionWrapper.<PlayerDto>builder().responseObject(playerService.getAllPlayers()).build());
     }
 }

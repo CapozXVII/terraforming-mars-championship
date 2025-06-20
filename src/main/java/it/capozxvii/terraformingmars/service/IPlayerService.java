@@ -2,6 +2,7 @@ package it.capozxvii.terraformingmars.service;
 
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
 import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
+import java.util.List;
 
 
 public interface IPlayerService {
@@ -12,4 +13,6 @@ public interface IPlayerService {
     void deletePlayer(PlayerID playerID);
 
     PlayerDto getPlayerById(PlayerID playerID);
+    
+    List<PlayerDto> getAllPlayers();
 }

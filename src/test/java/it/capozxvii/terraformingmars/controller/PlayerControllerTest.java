@@ -13,7 +13,10 @@ import it.capozxvii.terraformingmars.abstracts.AbstractControllerTest;
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
 import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
+import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -29,7 +32,8 @@ class PlayerControllerTest extends AbstractControllerTest {
             return playerDto;
         });
         String res = mvc.perform(post("/player/insert-player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(MAPPER.writeValueAsString(playerDto))).andExpect(status().isCreated()).andReturn()
+                                         .content(MAPPER.writeValueAsString(playerDto))).andExpect(status().isCreated())
+                .andReturn()
                 .getResponse().getContentAsString();
         assertEquals("Player with id [capoz] has been saved", res);
     }
@@ -40,7 +44,8 @@ class PlayerControllerTest extends AbstractControllerTest {
         TerraformingMarsException exception = new TerraformingMarsException("Unknown error", "");
         when(playerService.insertPlayer(playerDto)).thenThrow(exception);
         String res = mvc.perform(post("/player/insert-player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(MAPPER.writeValueAsString(playerDto))).andExpect(status().isInternalServerError())
+                                         .content(MAPPER.writeValueAsString(playerDto)))
+                .andExpect(status().isInternalServerError())
                 .andReturn()
                 .getResponse().getContentAsString();
         assertEquals("Unknown error", res);
@@ -51,10 +56,11 @@ class PlayerControllerTest extends AbstractControllerTest {
         PlayerID playerID = PlayerID.builder().nickname("capoz").id(1L).build();
         when(playerService.getPlayerById(playerID)).thenReturn(createPlayerDto("capoz", "Cri Cap", 1L));
         PlayerDto res = MAPPER.readValue(mvc.perform(get("/player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(MAPPER.writeValueAsString(playerID)))
-                .andExpect(status().isOk()).andReturn()
-                .getResponse().getContentAsString(), new TypeReference<SimpleWrapper<PlayerDto>>() {
-        }).getResponseObject();
+                                                             .content(MAPPER.writeValueAsString(playerID)))
+                                                 .andExpect(status().isOk()).andReturn()
+                                                 .getResponse().getContentAsString(),
+                                         new TypeReference<SimpleWrapper<PlayerDto>>() {
+                                         }).getResponseObject();
 
         assertEquals("capoz", res.getNickname());
         assertEquals(1L, res.getId());
@@ -68,10 +74,11 @@ class PlayerControllerTest extends AbstractControllerTest {
         PlayerID playerID = PlayerID.builder().nickname("capoz").id(1L).build();
         when(playerService.getPlayerById(playerID)).thenThrow(exception);
         String res = MAPPER.readValue(mvc.perform(get("/player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(MAPPER.writeValueAsString(playerID)))
-                .andExpect(status().isInternalServerError()).andReturn()
-                .getResponse().getContentAsString(), new TypeReference<SimpleWrapper<PlayerDto>>() {
-        }).getMessage();
+                                                          .content(MAPPER.writeValueAsString(playerID)))
+                                              .andExpect(status().isInternalServerError()).andReturn()
+                                              .getResponse().getContentAsString(),
+                                      new TypeReference<SimpleWrapper<PlayerDto>>() {
+                                      }).getMessage();
         assertEquals("Player with id [1L, nickname capoz] not found", res);
     }
 
@@ -80,6 +87,22 @@ class PlayerControllerTest extends AbstractControllerTest {
         PlayerID playerID = PlayerID.builder().nickname("capoz").id(1L).build();
         doNothing().when(playerService).deletePlayer(playerID);
         mvc.perform(delete("/player/delete-player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(MAPPER.writeValueAsString(playerID))).andExpect(status().isOk());
+                            .content(MAPPER.writeValueAsString(playerID))).andExpect(status().isOk());
+    }
+
+    @Test
+    void retrieveAllPlayersTest() throws Exception {
+        List<PlayerDto> players = new ArrayList<>();
+        players.add(createPlayerDto("capoz", "CriCap", 1L));
+        players.add(createPlayerDto("zopac", "CapCri", 2L));
+        players.add(createPlayerDto("zopac", "CapCri", 2L));
+        when(playerService.getAllPlayers()).thenReturn(players);
+        List<PlayerDto> res =
+                MAPPER.readValue(mvc.perform(get("/player/all-players").contentType(MediaType.APPLICATION_JSON_VALUE))
+                                         .andExpect(status().isOk()).andReturn()
+                                         .getResponse().getContentAsString(),
+                                 new TypeReference<CollectionWrapper<PlayerDto>>() {
+                                 }).getResponseObject();
+        assertEquals(players, res);
     }
 }

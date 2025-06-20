@@ -10,6 +10,7 @@ import it.capozxvii.terraformingmars.model.dto.PlayerDto;
 import it.capozxvii.terraformingmars.model.jpa.Player;
 import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class PlayerServiceTest extends AbstractServiceTest {
@@ -21,7 +22,7 @@ class PlayerServiceTest extends AbstractServiceTest {
         String fullName = "FullAName";
 
         PlayerDto playerDto =
-                playerService.insertPlayer(PlayerDto.builder().nickname(nickname).fullname(fullName).build());
+                playerService.insertPlayer(createPlayerDto(nickname, fullName, null));
 
         assertEquals(nickname, playerDto.getNickname());
         assertEquals(fullName, playerDto.getFullname());
@@ -33,7 +34,7 @@ class PlayerServiceTest extends AbstractServiceTest {
     void getPlayerById() {
         String nickname = "bNickname";
         String fullName = "FullBName";
-        Player player = playerRepository.save(Player.builder().nickname(nickname).fullname(fullName).build());
+        Player player = playerRepository.save(createPlayer(nickname, fullName));
 
         PlayerDto playerDto =
                 playerService.getPlayerById(PlayerID.builder().nickname(nickname).id(player.getId()).build());
@@ -74,5 +75,19 @@ class PlayerServiceTest extends AbstractServiceTest {
 
         assertTrue(
                 playerRepository.findById(PlayerID.builder().nickname(nickname).id(player.getId()).build()).isEmpty());
+    }
+    
+    @Test
+    void getAllPlayersTest() {
+        playerRepository.save(createPlayer("allPlayer1Nickname", "allPlayer1Fullname"));
+        playerRepository.save(createPlayer("allPlayer2Nickname", "allPlayer2Fullname"));
+        playerRepository.save(createPlayer("allPlayer3Nickname", "allPlayer3Fullname"));
+        List<PlayerDto> res = playerService.getAllPlayers();
+        assertTrue(res.stream().anyMatch(playerDto -> playerDto.getNickname().equals("allPlayer1Nickname")
+                                                      && playerDto.getFullname().equals("allPlayer1Fullname")));
+        assertTrue(res.stream().anyMatch(playerDto -> playerDto.getNickname().equals("allPlayer2Nickname")
+                                                      && playerDto.getFullname().equals("allPlayer2Fullname")));
+        assertTrue(res.stream().anyMatch(playerDto -> playerDto.getNickname().equals("allPlayer3Nickname")
+                                                      && playerDto.getFullname().equals("allPlayer3Fullname")));
     }
 }
