@@ -7,9 +7,15 @@ import it.capozxvii.terraformingmars.model.jpa.converter.OtherCategoriesConverte
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -25,7 +31,19 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Points extends AbstractEntity {
+public class Points {
+
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "points_seq_gen"
+    )
+    @SequenceGenerator(
+            name = "points_seq_gen",
+            sequenceName = "points_seq",
+            allocationSize = 1)
+    @Column(name = "id")
+    protected Long pointsId;
 
     @Column(name = "terraforming_rating")
     @Builder.Default
@@ -58,15 +76,16 @@ public class Points extends AbstractEntity {
     @Convert(converter = CorporationConverter.class)
     private Corporation corporation;
 
-    @Column(name = "prelude1")
+    @Column(name = "first_prelude")
+    @Enumerated(EnumType.STRING)
     private PreludeEnum firstPrelude;
 
-    @Column(name = "prelude2")
+    @Column(name = "second_prelude")
+    @Enumerated(EnumType.STRING)
     private PreludeEnum secondPrelude;
 
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "player_nickname", referencedColumnName = "nickname"),
             @JoinColumn(name = "player_id", referencedColumnName = "id")
     })
     private Player player;

@@ -15,6 +15,7 @@ public interface GameMapper {
     @InheritInverseConfiguration
     Game toEntity(GameDto gameDto);
 
-    @Mapping(source = "game.championship.id", target = "championshipId")
+    @Mapping(source = "gameId", target = "id")
+    @Mapping(source = "championship.championshipId", target = "championshipId")
     GameDto toDto(Game game);
 }

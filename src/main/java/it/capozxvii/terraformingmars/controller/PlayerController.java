@@ -2,7 +2,6 @@ package it.capozxvii.terraformingmars.controller;
 
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
 import it.capozxvii.terraformingmars.model.jpa.Player;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.service.IPlayerService;
 import it.capozxvii.terraformingmars.util.Message;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
@@ -52,18 +51,18 @@ public class PlayerController {
     }
 
     @DeleteMapping("/delete-player")
-    public ResponseEntity<String> deletePlayer(@RequestBody final PlayerID playerId) {
+    public ResponseEntity<String> deletePlayer(@RequestBody final Long playerId) {
         try {
             playerService.deletePlayer(playerId);
         } catch (TerraformingMarsException terraformingMarsException) {
             return ResponseEntity.internalServerError().body(terraformingMarsException.getMessage());
         }
         return ResponseEntity.ok(
-                Message.formatMessage(Message.SUCCESSFULLY_DELETED, Player.class, playerId.getNickname()));
+                Message.formatMessage(Message.SUCCESSFULLY_DELETED, Player.class, playerId));
     }
 
     @GetMapping
-    public ResponseEntity<SimpleWrapper<PlayerDto>> getPlayer(@RequestBody final PlayerID playerId) {
+    public ResponseEntity<SimpleWrapper<PlayerDto>> getPlayer(@RequestBody final Long playerId) {
         try {
             return ResponseEntity.ok(
                     SimpleWrapper.<PlayerDto>builder().responseObject(playerService.getPlayerById(playerId)).build());

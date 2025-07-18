@@ -47,33 +47,33 @@ class GameServiceTest extends AbstractServiceTest {
 
         List<PointsDto> pointsDtos = new ArrayList<>();
         pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
-                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.EXCENTRIC_SPONSOR,
                                        PreludeEnum.BIOLAB,
                                        null,
                                        createPlayerDto("genericPlayer", null,
-                                                       genericPlayer.getId())));
+                                                       genericPlayer.getPlayerId())));
         pointsDtos.add(
                 createPointsDto(27, 0, 0, 0, 5, 14, ColoniesCorporations.ARKLIGHT,
                                 PreludeEnum.LOAN,
                                 PreludeEnum.BUSINESS_EMPIRE,
                                 null,
                                 createPlayerDto("anotherGenericPlayer", null,
-                                                anotherGenericPlayer.getId())));
+                                                anotherGenericPlayer.getPlayerId())));
         pointsDtos.add(
                 createPointsDto(40, 0, 0, 0, 5, 14, PreludeCorporations.VALLEY_TRUST,
                                 PreludeEnum.POWER_GENERATION,
                                 PreludeEnum.UNMI_CONTRACTOR,
                                 Map.of("aCategory", 20),
                                 createPlayerDto("anotherGenericPlayer2", null,
-                                                anotherGenericPlayer2.getId())));
-        GameDto gameDto = createGameDto(now, "The house", genericChampionship.getId());
+                                                anotherGenericPlayer2.getPlayerId())));
+        GameDto gameDto = createGameDto(now, "The house", genericChampionship.getChampionshipId());
         gameDto.setPoints(pointsDtos);
 
         GameDto savedGameDto = assertDoesNotThrow(
                 () -> gameService.insertGame(gameDto));
         assertNotNull(savedGameDto.getId());
         assertTrue(savedGameDto.getId() > 0);
-        assertEquals(genericChampionship.getId(), savedGameDto.getChampionshipId());
+        assertEquals(genericChampionship.getChampionshipId(), savedGameDto.getChampionshipId());
         assertEquals(now, savedGameDto.getGameDate());
         assertEquals("The house", savedGameDto.getLocation());
         Optional<Game> gameEntity = gameRepository.findById(savedGameDto.getId());
@@ -81,7 +81,7 @@ class GameServiceTest extends AbstractServiceTest {
         assertEquals(3, gameEntity.get().getPoints().size());
         Set<Points> savedPoints = gameEntity.get().getPoints();
         filterAndCheckPoints(savedPoints, ColoniesCorporations.STORMCRAFT_INCORPORATED, 17, 6, 8, 0, 5, 42,
-                             PreludeEnum.INDUSTRIAL_ZONE,
+                             PreludeEnum.EXCENTRIC_SPONSOR,
                              PreludeEnum.BIOLAB,
                              null,
                              genericPlayer);
@@ -103,13 +103,13 @@ class GameServiceTest extends AbstractServiceTest {
                 createGame("house edi", genericChampionship, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)));
 
         LocalDateTime updateGameDateTime = LocalDateTime.now().plusDays(1).truncatedTo(ChronoUnit.SECONDS);
-        GameDto gameDto = createGameDto(updateGameDateTime, "The house", genericChampionship.getId());
-        gameDto.setId(game.getId());
+        GameDto gameDto = createGameDto(updateGameDateTime, "The house", genericChampionship.getChampionshipId());
+        gameDto.setId(game.getGameId());
         GameDto edited = assertDoesNotThrow(() -> gameService.editGame(gameDto));
-        assertEquals(game.getId(), edited.getId());
+        assertEquals(game.getGameId(), edited.getId());
         assertEquals(updateGameDateTime, edited.getGameDate());
         assertEquals("The house", edited.getLocation());
-        assertEquals(genericChampionship.getId(), edited.getChampionshipId());
+        assertEquals(genericChampionship.getChampionshipId(), edited.getChampionshipId());
     }
 
     @Test
@@ -142,7 +142,7 @@ class GameServiceTest extends AbstractServiceTest {
                                                                LocalDateTime.of(2020, 1, 1, 1, 1)));
 
         Points points1 = createPoints(17, 6, 8, 0, 5, 42, null, ColoniesCorporations.STORMCRAFT_INCORPORATED,
-                                      PreludeEnum.INDUSTRIAL_ZONE,
+                                      PreludeEnum.EXCENTRIC_SPONSOR,
                                       PreludeEnum.BIOLAB,
                                       genericPlayer);
         Game game1 = createGame("House of championship", champ,
@@ -171,27 +171,27 @@ class GameServiceTest extends AbstractServiceTest {
         points3.setGame(game3);
         pointsRepository.save(points3);
 
-        List<GameDto> res = gameService.findByChampionshipId(champ.getId());
+        List<GameDto> res = gameService.findByChampionshipId(champ.getChampionshipId());
 
         assertEquals(3, res.size());
         filterAndCheckGameDtos(res, game1);
         filterAndCheckGameDtos(res, game2);
         filterAndCheckGameDtos(res, game3);
         checkPointsDto(ColoniesCorporations.STORMCRAFT_INCORPORATED, 17, 6, 8, 0, 5, 42,
-                       PreludeEnum.INDUSTRIAL_ZONE,
+                       PreludeEnum.EXCENTRIC_SPONSOR,
                        PreludeEnum.BIOLAB,
                        null,
-                       genericPlayer.getId(), res.getFirst().getPoints().getFirst());
+                       genericPlayer.getPlayerId(), res.getFirst().getPoints().getFirst());
         checkPointsDto(ColoniesCorporations.POSEIDON, 50, 6, 8, 0, 5, 42,
                        PreludeEnum.METAL_RICH_ASTEROID,
                        PreludeEnum.BIOLAB,
                        null,
-                       anotherGenericPlayer.getId(), res.get(1).getPoints().getFirst());
+                       anotherGenericPlayer.getPlayerId(), res.get(1).getPoints().getFirst());
         checkPointsDto(ColoniesCorporations.ARKLIGHT, 500, 6, 8, 0, 5, 42,
                        PreludeEnum.METAL_RICH_ASTEROID,
                        PreludeEnum.BIOLAB,
                        null,
-                       anotherGenericPlayer2.getId(), res.get(2).getPoints().getFirst());
+                       anotherGenericPlayer2.getPlayerId(), res.get(2).getPoints().getFirst());
 
     }
 }

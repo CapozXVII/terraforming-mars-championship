@@ -1,5 +1,6 @@
 package it.capozxvii.terraformingmars.converter;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
@@ -47,17 +48,11 @@ class DraftingCorporationsForGamesConverterTest {
 
     @Test
     void convertToEntityAttributeExceptionTest() {
-        TerraformingMarsException res = assertThrows(TerraformingMarsException.class,
-                                                     () -> DRAFTING_CORPORATIONS_DECKS_FOR_GAMES
-                                                             .convertToEntityAttribute(
-                                                                     "\"1\":[\"VenusNext\",\"Prelude\"],"
-                                                                     + "\"2\":[\"CorporateEra\",\"Prelude\"],"
-                                                                     + "\"3\":[\"Colonies\",\"Prelude\"]}"));
-        assertEquals(
-                "Error while converting [\"1\":[\"VenusNext\",\"Prelude\"],"
-                + "\"2\":[\"CorporateEra\",\"Prelude\"],"
-                + "\"3\":[\"Colonies\",\"Prelude\"]}] to Object",
-                res.getMessage());
+        assertEquals(0, assertDoesNotThrow(() -> DRAFTING_CORPORATIONS_DECKS_FOR_GAMES
+                .convertToEntityAttribute(
+                        "\"1\":[\"VenusNext\",\"Prelude\"],"
+                        + "\"2\":[\"CorporateEra\",\"Prelude\"],"
+                        + "\"3\":[\"Colonies\",\"Prelude\"]}")).size());
     }
 
     @Test

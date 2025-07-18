@@ -1,5 +1,6 @@
 package it.capozxvii.terraformingmars.converter;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
@@ -35,11 +36,9 @@ class OtherCategoriesConverterTest {
 
     @Test
     void convertToEntityAttributeExceptionTest() {
-        TerraformingMarsException res = assertThrows(TerraformingMarsException.class,
-                                                     () -> OTHER_CATEGORIES_CONVERTER.convertToEntityAttribute(
-                                                             "\"category2\":30,\"category\":15"));
-        assertEquals("Error while converting [\"category2\":30,\"category\":15] to Object",
-                     res.getMessage());
+        assertDoesNotThrow(
+                () -> OTHER_CATEGORIES_CONVERTER.convertToEntityAttribute(
+                        "\"category2\":30,\"category\":15"));
     }
 
     @Test

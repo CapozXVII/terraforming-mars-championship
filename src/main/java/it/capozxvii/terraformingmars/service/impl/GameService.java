@@ -6,7 +6,6 @@ import it.capozxvii.terraformingmars.model.jpa.Championship;
 import it.capozxvii.terraformingmars.model.jpa.Game;
 import it.capozxvii.terraformingmars.model.jpa.Player;
 import it.capozxvii.terraformingmars.model.jpa.Points;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.model.mapper.GameMapper;
 import it.capozxvii.terraformingmars.model.mapper.PointsMapper;
 import it.capozxvii.terraformingmars.repository.ChampionshipRepository;
@@ -54,9 +53,9 @@ public class GameService implements IGameService {
         Game gameAfterSaving = gameRepository.save(game);
         gameDto.getPoints().forEach(pointsDto -> {
             PlayerDto playerDto = pointsDto.getPlayer();
-            Player player = utils.checkAndGetPlayer(playerRepository,
-                                                    PlayerID.builder().id(playerDto.getId())
-                                                            .nickname(playerDto.getNickname()).build());
+            Player player = utils.checkAndGetEntity(playerRepository,
+                                                    Player.class,
+                                                    playerDto.getId());
             Points points = pointsMapper.toEntity(pointsDto);
             points.setGame(gameAfterSaving);
             points.setPlayer(player);
@@ -69,7 +68,7 @@ public class GameService implements IGameService {
     @Transactional
     public GameDto editGame(final GameDto gameDto) {
         Game game = gameMapper.toEntity(gameDto);
-        game.setId(gameDto.getId());
+        game.setGameId(gameDto.getId());
         game.setChampionship(
                 utils.checkAndGetEntity(championshipRepository, Championship.class, gameDto.getChampionshipId()));
         return gameMapper.toDto(gameRepository.save(game));
@@ -84,7 +83,7 @@ public class GameService implements IGameService {
     @Override
     @Transactional
     public List<GameDto> findByChampionshipId(final Long championshipId) {
-        return gameRepository.findByChampionshipId(championshipId).stream().map(gameMapper::toDto)
+        return gameRepository.findByChampionshipChampionshipId(championshipId).stream().map(gameMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import it.capozxvii.terraformingmars.abstracts.AbstractServiceTest;
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
 import it.capozxvii.terraformingmars.model.jpa.Player;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -37,21 +36,20 @@ class PlayerServiceTest extends AbstractServiceTest {
         Player player = playerRepository.save(createPlayer(nickname, fullName));
 
         PlayerDto playerDto =
-                playerService.getPlayerById(PlayerID.builder().nickname(nickname).id(player.getId()).build());
+                playerService.getPlayerById(player.getPlayerId());
 
         assertEquals(nickname, playerDto.getNickname());
         assertEquals(fullName, playerDto.getFullname());
         assertNotNull(playerDto.getId());
-        assertEquals(player.getId(), playerDto.getId());
+        assertEquals(player.getPlayerId(), playerDto.getId());
     }
 
     @Test
     void getPlayerByIdNotExisting() {
         TerraformingMarsException res = assertThrows(TerraformingMarsException.class,
-                () -> playerService.getPlayerById(
-                        PlayerID.builder().nickname("notExisting").build()));
+                                                     () -> playerService.getPlayerById(-1L));
 
-        assertEquals("Player with id [null, nickname notExisting] not found", res.getMessage());
+        assertEquals("Player with id [-1] not found", res.getMessage());
     }
 
     @Test
@@ -60,9 +58,9 @@ class PlayerServiceTest extends AbstractServiceTest {
         String fullName = "FullBName";
         Player player = playerRepository.save(Player.builder().nickname(nickname).fullname(fullName).build());
         PlayerDto playerDto = playerService.updatePlayer(
-                PlayerDto.builder().nickname(nickname).fullname("newFullname").id(player.getId()).build());
+                PlayerDto.builder().nickname(nickname).fullname("newFullname").id(player.getPlayerId()).build());
         assertEquals(nickname, playerDto.getNickname());
-        assertEquals(player.getId(), playerDto.getId());
+        assertEquals(player.getPlayerId(), playerDto.getId());
         assertEquals("newFullname", playerDto.getFullname());
     }
 
@@ -71,12 +69,13 @@ class PlayerServiceTest extends AbstractServiceTest {
         String nickname = "toDeleteNickname";
         String fullName = "FullBName";
         Player player = playerRepository.save(Player.builder().nickname(nickname).fullname(fullName).build());
-        playerService.deletePlayer(PlayerID.builder().nickname(nickname).id(player.getId()).build());
+        playerService.deletePlayer(player.getPlayerId());
 
         assertTrue(
-                playerRepository.findById(PlayerID.builder().nickname(nickname).id(player.getId()).build()).isEmpty());
+                playerRepository.findById(player.getPlayerId())
+                        .isEmpty());
     }
-    
+
     @Test
     void getAllPlayersTest() {
         playerRepository.save(createPlayer("allPlayer1Nickname", "allPlayer1Fullname"));

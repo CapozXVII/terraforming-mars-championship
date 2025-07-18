@@ -45,15 +45,34 @@ class ChampionshipServiceTest extends AbstractServiceTest {
         assertEquals(end, championshipDto.getEndingDate());
         assertEquals(now, championshipDto.getStartingDate());
         assertEquals(name, championshipDto.getName());
-        assertEquals(championship.getId(), championshipDto.getId());
+        assertEquals(championship.getChampionshipId(), championshipDto.getId());
     }
 
     @Test
     void getChampionshipByNameExceptionTest() {
 
         TerraformingMarsException res = assertThrows(TerraformingMarsException.class,
-                () -> championshipService.getChampionshipByName("notExisting"));
+                                                     () -> championshipService.getChampionshipByName("notExisting"));
 
         assertEquals("Championship with id [notExisting] not found", res.getMessage());
+    }
+
+    @Test
+    void getChampionshipByIdTest() {
+        ChampionshipDto championshipDto =
+                championshipService.getChampionshipById(genericChampionship.getChampionshipId());
+        assertEquals(genericChampionship.getChampionshipId(), championshipDto.getId());
+        assertEquals(genericChampionship.getName(), championshipDto.getName());
+        assertEquals(genericChampionship.getStartingDate().truncatedTo(ChronoUnit.SECONDS),
+                     championshipDto.getStartingDate().truncatedTo(ChronoUnit.SECONDS));
+        assertEquals(genericChampionship.getEndingDate().truncatedTo(ChronoUnit.SECONDS),
+                     championshipDto.getEndingDate().truncatedTo(ChronoUnit.SECONDS));
+    }
+
+    @Test
+    void getChampionshipByIdExceptionTest() {
+        TerraformingMarsException terraformingMarsException =
+                assertThrows(TerraformingMarsException.class, () -> championshipService.getChampionshipById(-100L));
+        assertEquals("Championship with id [-100] not found", terraformingMarsException.getMessage());
     }
 }

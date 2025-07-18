@@ -1,5 +1,6 @@
 package it.capozxvii.terraformingmars.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.capozxvii.terraformingmars.model.jpa.Points;
 import java.io.Serializable;
 import java.util.Map;
@@ -17,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PointsDto extends AbstractDto implements Serializable {
     private int terraformingRating;
     private int greenery;

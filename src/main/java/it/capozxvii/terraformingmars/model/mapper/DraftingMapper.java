@@ -16,7 +16,7 @@ public interface DraftingMapper extends CommonMapper {
 
     Drafting toEntity(Player player, Championship championship, Map<Integer, List<String>> draftings);
 
-    @Mapping(source = "prevision.championship.id", target = "championshipId")
-    @Mapping(source = "prevision.player", target = "playerID", qualifiedByName = "toPlayerID")
+    @Mapping(source = "championship.championshipId", target = "championshipId")
+    @Mapping(source = "player.playerId", target = "playerId")
     DraftingDto toDto(Drafting prevision);
 }

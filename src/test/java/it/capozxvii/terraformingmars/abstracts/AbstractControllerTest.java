@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,16 +23,16 @@ public abstract class AbstractControllerTest extends AbstractTest {
     @Autowired
     protected MockMvc mvc;
 
-    @MockBean
+    @MockitoBean
     protected IChampionshipService championshipService;
 
-    @MockBean
+    @MockitoBean
     protected IGameService gameService;
 
-    @MockBean
+    @MockitoBean
     protected IPlayerService playerService;
 
-    @MockBean
+    @MockitoBean
     protected IDraftingService previsionService;
 
     @BeforeAll
