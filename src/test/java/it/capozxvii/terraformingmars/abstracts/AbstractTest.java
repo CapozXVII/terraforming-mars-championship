@@ -14,6 +14,7 @@ import it.capozxvii.terraformingmars.model.jpa.Game;
 import it.capozxvii.terraformingmars.model.jpa.Player;
 import it.capozxvii.terraformingmars.model.jpa.Points;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -69,7 +70,7 @@ public abstract class AbstractTest {
     }
 
     protected GameDto createGameDto(final LocalDateTime gameDate, final String location, final Long championshipId) {
-        return GameDto.builder().gameDate(gameDate).location(location)
+        return GameDto.builder().gameDate(gameDate).location(location).points(new ArrayList<>())
                 .championshipId(championshipId).build();
     }
 
