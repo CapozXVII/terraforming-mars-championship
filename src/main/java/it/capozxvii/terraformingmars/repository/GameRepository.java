@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findByLocation(String location);
 
-    List<Game> findByChampionshipId(Long championshipId);
+    List<Game> findByChampionshipChampionshipId(Long championshipId);
 }

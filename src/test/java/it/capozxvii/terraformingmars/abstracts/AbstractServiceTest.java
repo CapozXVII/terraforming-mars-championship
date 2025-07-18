@@ -3,7 +3,6 @@ package it.capozxvii.terraformingmars.abstracts;
 import it.capozxvii.terraformingmars.model.jpa.Championship;
 import it.capozxvii.terraformingmars.model.jpa.Game;
 import it.capozxvii.terraformingmars.model.jpa.Player;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.repository.ChampionshipRepository;
 import it.capozxvii.terraformingmars.repository.DraftingRepository;
 import it.capozxvii.terraformingmars.repository.GameRepository;
@@ -70,7 +69,7 @@ public abstract class AbstractServiceTest extends AbstractTest {
 
     @BeforeAll
     void createGenericPlayer() {
-        playerRepository.findById(PlayerID.builder().nickname("genericPlayer").build()).ifPresentOrElse(player -> {
+        playerRepository.findById(1L).ifPresentOrElse(player -> {
             this.genericPlayer = player;
         }, () -> this.genericPlayer = playerRepository.saveAndFlush(createPlayer("genericPlayer", "genericFullname")));
     }

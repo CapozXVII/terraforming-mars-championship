@@ -7,6 +7,7 @@ import it.capozxvii.terraformingmars.util.Message;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import jakarta.persistence.AttributeConverter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +32,12 @@ public abstract class AbstractConverter<K, V> implements AttributeConverter<Map<
 
     public Map<K, V> convertToEntityAttribute(final String otherCategoriesJson,
             final TypeReference<Map<K, V>> typeReference) {
-        Map<K, V> otherCategories;
         try {
-            otherCategories =
-                    MAPPER.readValue(otherCategoriesJson, typeReference);
+            return MAPPER.readValue(otherCategoriesJson, typeReference);
         } catch (final IOException e) {
             LOG.error("JSON reading error", e);
-            throw new TerraformingMarsException(Message.ERROR_WHILE_CONVERTING_TO_OBJECT, otherCategoriesJson);
+            return new HashMap<>();
         }
-        return otherCategories;
     }
 
 }

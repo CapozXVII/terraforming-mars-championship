@@ -13,7 +13,6 @@ import it.capozxvii.terraformingmars.model.enums.corporation.ColoniesCorporation
 import it.capozxvii.terraformingmars.model.enums.corporation.CorporateEraCorporations;
 import it.capozxvii.terraformingmars.model.enums.corporation.PreludeCorporations;
 import it.capozxvii.terraformingmars.model.enums.corporation.VenusNextCorporations;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ class DraftingControllerTest extends AbstractControllerTest {
         corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         DraftingDto draftingDtoCapoz = createPrevisionDto(1L,
-                                                          PlayerID.builder().nickname("Capoz").id(1L).build(),
+                                                         1L,
                                                           corporationDecksToDraft);
         draftingDtoList.add(draftingDtoCapoz);
 
@@ -45,7 +44,8 @@ class DraftingControllerTest extends AbstractControllerTest {
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
 
         DraftingDto draftingDtoLudovick =
-                createPrevisionDto(1L, PlayerID.builder().nickname("Ludovick").id(2L).build(), corporationDecksToDraft);
+                createPrevisionDto(1L, 2L,
+                                   corporationDecksToDraft);
         draftingDtoList.add(draftingDtoLudovick);
 
         draftingDtoCapoz.setId(1L);
@@ -73,10 +73,10 @@ class DraftingControllerTest extends AbstractControllerTest {
         corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         DraftingDto draftingDtoCapoz = createPrevisionDto(1L,
-                                                          PlayerID.builder().nickname("Capoz").id(1L).build(),
+                                                          1L,
                                                           corporationDecksToDraft);
         draftingDtoList.add(draftingDtoCapoz);
-        doThrow(new TerraformingMarsException("Player with id [1L, nickname Capoz] not found")).when(
+        doThrow(new TerraformingMarsException("Player with id [1L] not found")).when(
                 previsionService).insertDrafting(draftingDtoList);
 
         String res =
@@ -88,7 +88,7 @@ class DraftingControllerTest extends AbstractControllerTest {
                         new TypeReference<CollectionWrapper<DraftingDto>>() {
                         }).getMessage();
 
-        assertEquals("Player with id [1L, nickname Capoz] not found", res);
+        assertEquals("Player with id [1L] not found", res);
 
     }
 
@@ -100,7 +100,7 @@ class DraftingControllerTest extends AbstractControllerTest {
         corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         DraftingDto draftingDtoCapoz = createPrevisionDto(100L,
-                                                          PlayerID.builder().nickname("Capoz").id(1L).build(),
+                                                          1L,
                                                           corporationDecksToDraft);
         draftingDtoList.add(draftingDtoCapoz);
         doThrow(new TerraformingMarsException("Championship with id 100 not found")).when(

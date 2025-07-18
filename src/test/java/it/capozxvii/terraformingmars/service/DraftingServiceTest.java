@@ -14,7 +14,6 @@ import it.capozxvii.terraformingmars.model.enums.corporation.VenusNextCorporatio
 import it.capozxvii.terraformingmars.model.jpa.Championship;
 import it.capozxvii.terraformingmars.model.jpa.Drafting;
 import it.capozxvii.terraformingmars.model.jpa.Player;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -41,25 +40,25 @@ class DraftingServiceTest extends AbstractServiceTest {
         corporationDecksToDraft.put(1, List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        previsions.add(createPrevisionDto(championship.getId(),
-                                          PlayerID.builder().nickname("cNickname").id(cPlayer.getId()).build(),
+        previsions.add(createPrevisionDto(championship.getChampionshipId(),
+                                          cPlayer.getPlayerId(),
                                           corporationDecksToDraft));
         corporationDecksToDraft = new HashMap<>();
         corporationDecksToDraft.put(1, List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        previsions.add(createPrevisionDto(championship.getId(),
-                                          PlayerID.builder().nickname("dNickname").id(dPlayer.getId()).build(),
+        previsions.add(createPrevisionDto(championship.getChampionshipId(),
+                                          dPlayer.getPlayerId(),
                                           corporationDecksToDraft));
         List<DraftingDto> draftingDtos = assertDoesNotThrow(() -> previsionService.insertDrafting(previsions));
         Optional<DraftingDto> previsionDtoOptional = draftingDtos.stream()
-                .filter(previsionDto -> previsionDto.getPlayerID() != null && previsionDto.getPlayerID().getId()
-                        .equals(cPlayer.getId())).findFirst();
+                .filter(previsionDto -> previsionDto.getPlayerId() != null
+                                        && previsionDto.getPlayerId().equals(cPlayer.getPlayerId())).findFirst();
         assertTrue(previsionDtoOptional.isPresent());
 
         DraftingDto draftingDtoResult = previsionDtoOptional.get();
-        assertEquals("cNickname", draftingDtoResult.getPlayerID().getNickname());
-        assertEquals(championship.getId(), draftingDtoResult.getChampionshipId());
+        assertEquals(cPlayer.getPlayerId(), draftingDtoResult.getPlayerId());
+        assertEquals(championship.getChampionshipId(), draftingDtoResult.getChampionshipId());
         assertEquals(List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION),
                      draftingDtoResult.getDraftings().get(1));
         assertEquals(List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION),
@@ -68,13 +67,13 @@ class DraftingServiceTest extends AbstractServiceTest {
                      draftingDtoResult.getDraftings().get(3));
 
         previsionDtoOptional = draftingDtos.stream()
-                .filter(previsionDto -> previsionDto.getPlayerID() != null && previsionDto.getPlayerID().getId()
-                        .equals(dPlayer.getId())).findFirst();
+                .filter(previsionDto -> previsionDto.getPlayerId() != null
+                                        && previsionDto.getPlayerId().equals(dPlayer.getPlayerId())).findFirst();
         assertTrue(previsionDtoOptional.isPresent());
 
         draftingDtoResult = previsionDtoOptional.get();
-        assertEquals("dNickname", draftingDtoResult.getPlayerID().getNickname());
-        assertEquals(championship.getId(), draftingDtoResult.getChampionshipId());
+        assertEquals(dPlayer.getPlayerId(), draftingDtoResult.getPlayerId());
+        assertEquals(championship.getChampionshipId(), draftingDtoResult.getChampionshipId());
         assertEquals(List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION),
                      draftingDtoResult.getDraftings().get(1));
         assertEquals(List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION),
@@ -93,19 +92,19 @@ class DraftingServiceTest extends AbstractServiceTest {
         corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         previsions.add(createPrevisionDto(-10L,
-                                          PlayerID.builder().nickname("notExisting").id(-10L).build(),
+                                          -10L,
                                           corporationDecksToDraft));
         TerraformingMarsException exception =
                 assertThrows(TerraformingMarsException.class, () -> previsionService.insertDrafting(previsions));
 
-        assertEquals("Player with id [-10, nickname notExisting] not found", exception.getMessage());
+        assertEquals("Player with id [-10] not found", exception.getMessage());
         previsions.clear();
         corporationDecksToDraft = new HashMap<>();
         corporationDecksToDraft.put(1, List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
         previsions.add(createPrevisionDto(-10L,
-                                          PlayerID.builder().nickname("eNickname").id(ePlayer.getId()).build(),
+                                         ePlayer.getPlayerId(),
                                           corporationDecksToDraft));
         exception =
                 assertThrows(TerraformingMarsException.class, () -> previsionService.insertDrafting(previsions));
@@ -128,8 +127,9 @@ class DraftingServiceTest extends AbstractServiceTest {
                 Drafting.builder().player(fPlayer).championship(championship).draftings(corporationDecksToDraft)
                         .build());
         List<DraftingDto> draftingDtos = assertDoesNotThrow(() -> previsionService.editDrafting(
-                DraftingDto.builder().championshipId(championship.getId()).id(drafting.getId()).playerID(
-                                PlayerID.builder().nickname(fPlayer.getNickname()).id(fPlayer.getId()).build())
+                DraftingDto.builder().championshipId(championship.getChampionshipId()).id(drafting.getDraftingId())
+                        .playerId(
+                               fPlayer.getPlayerId())
                         .draftings(Map.of(2, List.of(ColoniesCorporations.EXPANSION, VenusNextCorporations.EXPANSION)))
                         .build()));
         Optional<DraftingDto> dto = draftingDtos.stream().findFirst();
@@ -143,7 +143,5 @@ class DraftingServiceTest extends AbstractServiceTest {
                      predictionAfterEdit.get(2));
         assertEquals(List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION),
                      predictionAfterEdit.get(3));
-
     }
-
 }

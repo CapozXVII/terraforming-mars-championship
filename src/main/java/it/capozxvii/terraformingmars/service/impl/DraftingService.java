@@ -44,7 +44,7 @@ public class DraftingService implements IDraftingService {
     @Transactional
     public List<DraftingDto> insertDrafting(final List<DraftingDto> draftingDtos) {
         return draftingDtos.stream().map(previsionDto -> {
-            Player player = utils.checkAndGetPlayer(playerRepository, previsionDto.getPlayerID());
+            Player player = utils.checkAndGetEntity(playerRepository, Player.class, previsionDto.getPlayerId());
             Championship championship = utils.checkAndGetEntity(championshipRepository, Championship.class,
                     previsionDto.getChampionshipId());
 
@@ -57,7 +57,7 @@ public class DraftingService implements IDraftingService {
     @Override
     @Transactional
     public List<DraftingDto> editDrafting(final DraftingDto previsionDto) {
-        Player player = utils.checkAndGetPlayer(playerRepository, previsionDto.getPlayerID());
+        Player player = utils.checkAndGetEntity(playerRepository, Player.class, previsionDto.getPlayerId());
         Championship championship = utils.checkAndGetEntity(championshipRepository, Championship.class,
                 previsionDto.getChampionshipId());
         Drafting prevision = utils.checkAndGetEntity(draftingRepository, Drafting.class, previsionDto.getId());

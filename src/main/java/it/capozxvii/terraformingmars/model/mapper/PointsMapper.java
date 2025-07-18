@@ -2,12 +2,15 @@ package it.capozxvii.terraformingmars.model.mapper;
 
 import it.capozxvii.terraformingmars.model.dto.PointsDto;
 import it.capozxvii.terraformingmars.model.jpa.Points;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING,
+        uses = {PlayerMapper.class})
 public interface PointsMapper extends CommonMapper {
 
     @Mapping(source = "corporation", target = "corporation", qualifiedByName = "getCorporation")
@@ -22,4 +25,9 @@ public interface PointsMapper extends CommonMapper {
     @Mapping(source = "secondPrelude", target = "secondPrelude", qualifiedByName = "getPreludeName")
     @Mapping(target = "game", ignore = true)
     PointsDto toDto(Points points);
+
+    @AfterMapping
+    default void setTotalPoints(Points points, @MappingTarget PointsDto dto) {
+        dto.setTotalPoints(points.getTotalPoints());
+    }
 }

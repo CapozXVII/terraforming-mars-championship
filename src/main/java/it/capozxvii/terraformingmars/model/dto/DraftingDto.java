@@ -1,7 +1,7 @@
 package it.capozxvii.terraformingmars.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.capozxvii.terraformingmars.model.jpa.Drafting;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +19,9 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DraftingDto extends AbstractDto implements Serializable {
-    private PlayerID playerID;
+    private Long playerId;
     private Long championshipId;
     private Map<Integer, List<String>> draftings;
 }

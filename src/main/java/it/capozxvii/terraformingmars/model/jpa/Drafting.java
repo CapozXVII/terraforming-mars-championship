@@ -1,11 +1,15 @@
 package it.capozxvii.terraformingmars.model.jpa;
 
 import it.capozxvii.terraformingmars.model.jpa.converter.DraftingCorporationsForGamesConverter;
+import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +26,25 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Drafting extends AbstractEntity {
+public class Drafting {
+
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "drafting_seq_gen"
+    )
+    @SequenceGenerator(
+            name = "drafting_seq_gen",
+            sequenceName = "drafting_seq",
+            allocationSize = 1)
+    @Column(name = "id")
+    protected Long draftingId;
 
     @Convert(converter = DraftingCorporationsForGamesConverter.class)
     private Map<Integer, List<String>> draftings;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "player_nickname", referencedColumnName = "nickname"),
-            @JoinColumn(name = "player_id", referencedColumnName = "id")
-    })
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
     private Player player;
 
     @ManyToOne

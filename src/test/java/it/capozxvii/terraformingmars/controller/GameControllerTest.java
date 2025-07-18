@@ -35,7 +35,7 @@ class GameControllerTest extends AbstractControllerTest {
         GameDto gameDto = createGameDto(now, "Clank House", 1L);
         List<PointsDto> pointsDtos = new ArrayList<>();
         pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
-                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.EXCENTRIC_SPONSOR,
                                        PreludeEnum.BIOLAB,
                                        null,
                                        createPlayerDto("genericPlayer", null,
@@ -69,7 +69,7 @@ class GameControllerTest extends AbstractControllerTest {
         GameDto gameDto = createGameDto(now, "Clank House", 111111111L);
         List<PointsDto> pointsDtos = new ArrayList<>();
         pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
-                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.EXCENTRIC_SPONSOR,
                                        PreludeEnum.BIOLAB,
                                        null,
                                        createPlayerDto("genericPlayer", null,
@@ -96,7 +96,7 @@ class GameControllerTest extends AbstractControllerTest {
         GameDto gameDto = createGameDto(now, "Clank House", 1L);
         List<PointsDto> pointsDtos = new ArrayList<>();
         pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
-                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.EXCENTRIC_SPONSOR,
                                        PreludeEnum.BIOLAB,
                                        null,
                                        createPlayerDto("genericPlayer", null,
@@ -127,7 +127,7 @@ class GameControllerTest extends AbstractControllerTest {
         GameDto gameDto = createGameDto(now, "Clank House", 111111111L);
         List<PointsDto> pointsDtos = new ArrayList<>();
         pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
-                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.EXCENTRIC_SPONSOR,
                                        PreludeEnum.BIOLAB,
                                        null,
                                        createPlayerDto("genericPlayer", null,
@@ -190,7 +190,7 @@ class GameControllerTest extends AbstractControllerTest {
         GameDto gameDto = createGameDto(now, "Clank House", 1L);
         List<PointsDto> pointsDtos = new ArrayList<>();
         pointsDtos.add(createPointsDto(17, 6, 8, 0, 5, 42, ColoniesCorporations.STORMCRAFT_INCORPORATED,
-                                       PreludeEnum.INDUSTRIAL_ZONE,
+                                       PreludeEnum.EXCENTRIC_SPONSOR,
                                        PreludeEnum.BIOLAB,
                                        null,
                                        createPlayerDto("genericPlayer", null,

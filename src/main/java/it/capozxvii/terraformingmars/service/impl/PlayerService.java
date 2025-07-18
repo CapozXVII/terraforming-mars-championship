@@ -2,7 +2,6 @@ package it.capozxvii.terraformingmars.service.impl;
 
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
 import it.capozxvii.terraformingmars.model.jpa.Player;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.model.mapper.PlayerMapper;
 import it.capozxvii.terraformingmars.repository.PlayerRepository;
 import it.capozxvii.terraformingmars.service.IPlayerService;
@@ -35,6 +34,7 @@ public class PlayerService implements IPlayerService {
     @Override
     @Transactional
     public PlayerDto insertPlayer(final PlayerDto player) {
+        LOG.info("Inserting player {} into DB", player);
         return playerMapper.toDto(playerRepository.save(playerMapper.toEntity(player)));
     }
 
@@ -42,20 +42,20 @@ public class PlayerService implements IPlayerService {
     @Transactional
     public PlayerDto updatePlayer(final PlayerDto player) {
         Player pl = playerMapper.toEntity(player);
-        pl.setId(player.getId());
+        pl.setPlayerId(player.getId());
         return playerMapper.toDto(playerRepository.save(pl));
     }
 
     @Override
     @Transactional
-    public void deletePlayer(final PlayerID playerID) {
+    public void deletePlayer(final Long playerID) {
         playerRepository.deleteById(playerID);
     }
 
     @Override
     @Transactional
-    public PlayerDto getPlayerById(final PlayerID playerID) throws TerraformingMarsException {
-        return playerMapper.toDto(utils.checkAndGetPlayer(playerRepository, playerID));
+    public PlayerDto getPlayerById(final Long playerID) throws TerraformingMarsException {
+        return playerMapper.toDto(utils.checkAndGetEntity(playerRepository, Player.class, playerID));
     }
 
     @Override

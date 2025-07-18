@@ -2,16 +2,10 @@ package it.capozxvii.terraformingmars.model.mapper;
 
 import it.capozxvii.terraformingmars.model.enums.corporation.Corporation;
 import it.capozxvii.terraformingmars.model.enums.prelude.PreludeEnum;
-import it.capozxvii.terraformingmars.model.jpa.Player;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.util.CorporationFactory;
 import org.mapstruct.Named;
 
 public interface CommonMapper {
-    @Named("toPlayerID")
-    static PlayerID toPlayerID(Player player) {
-        return PlayerID.builder().id(player.getId()).nickname(player.getNickname()).build();
-    }
 
     @Named("getCorporation")
     static Corporation getCorporation(final String corporationName) {

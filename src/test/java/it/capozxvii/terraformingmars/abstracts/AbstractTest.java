@@ -13,7 +13,6 @@ import it.capozxvii.terraformingmars.model.jpa.Championship;
 import it.capozxvii.terraformingmars.model.jpa.Game;
 import it.capozxvii.terraformingmars.model.jpa.Player;
 import it.capozxvii.terraformingmars.model.jpa.Points;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +23,11 @@ import java.util.Set;
 public abstract class AbstractTest {
     protected static void filterAndCheckGameDtos(final List<GameDto> gameDtos, final Game game) {
         Optional<GameDto> gameDtoOptional =
-                gameDtos.stream().filter(gameDto -> Objects.equals(gameDto.getId(), game.getId())).findFirst();
+                gameDtos.stream().filter(gameDto -> Objects.equals(gameDto.getId(), game.getGameId())).findFirst();
 
         assertTrue(gameDtoOptional.isPresent());
         GameDto gameDto = gameDtoOptional.get();
-        assertEquals(game.getId(), gameDto.getId());
+        assertEquals(game.getGameId(), gameDto.getId());
         assertEquals(game.getLocation(), gameDto.getLocation());
         assertEquals(game.getGameDate(), gameDto.getGameDate());
     }
@@ -103,10 +102,10 @@ public abstract class AbstractTest {
     }
 
     protected DraftingDto createPrevisionDto(final Long championshipId,
-            final PlayerID playerID,
+            final Long playerID,
             final Map<Integer, List<String>> chosenCharacters) {
         return DraftingDto.builder().championshipId(championshipId).draftings(chosenCharacters)
-                .playerID(playerID).build();
+                .playerId(playerID).build();
     }
 
     protected void checkPointsDto(

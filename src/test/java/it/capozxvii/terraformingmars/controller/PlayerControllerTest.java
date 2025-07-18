@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import it.capozxvii.terraformingmars.abstracts.AbstractControllerTest;
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
@@ -53,10 +52,9 @@ class PlayerControllerTest extends AbstractControllerTest {
 
     @Test
     void getPlayerTest() throws Exception {
-        PlayerID playerID = PlayerID.builder().nickname("capoz").id(1L).build();
-        when(playerService.getPlayerById(playerID)).thenReturn(createPlayerDto("capoz", "Cri Cap", 1L));
+        when(playerService.getPlayerById(1L)).thenReturn(createPlayerDto("capoz", "Cri Cap", 1L));
         PlayerDto res = MAPPER.readValue(mvc.perform(get("/player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                                                             .content(MAPPER.writeValueAsString(playerID)))
+                                                             .content(MAPPER.writeValueAsString(1L)))
                                                  .andExpect(status().isOk()).andReturn()
                                                  .getResponse().getContentAsString(),
                                          new TypeReference<SimpleWrapper<PlayerDto>>() {
@@ -70,24 +68,22 @@ class PlayerControllerTest extends AbstractControllerTest {
     @Test
     void getPlayerExceptionTest() throws Exception {
         TerraformingMarsException exception =
-                new TerraformingMarsException("Player with id [1L, nickname capoz] not found", "");
-        PlayerID playerID = PlayerID.builder().nickname("capoz").id(1L).build();
-        when(playerService.getPlayerById(playerID)).thenThrow(exception);
+                new TerraformingMarsException("Player with id [1L] not found", "");
+        when(playerService.getPlayerById(1L)).thenThrow(exception);
         String res = MAPPER.readValue(mvc.perform(get("/player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                                                          .content(MAPPER.writeValueAsString(playerID)))
+                                                          .content(MAPPER.writeValueAsString(1L)))
                                               .andExpect(status().isInternalServerError()).andReturn()
                                               .getResponse().getContentAsString(),
                                       new TypeReference<SimpleWrapper<PlayerDto>>() {
                                       }).getMessage();
-        assertEquals("Player with id [1L, nickname capoz] not found", res);
+        assertEquals("Player with id [1L] not found", res);
     }
 
     @Test
     void deletePlayerTest() throws Exception {
-        PlayerID playerID = PlayerID.builder().nickname("capoz").id(1L).build();
-        doNothing().when(playerService).deletePlayer(playerID);
+        doNothing().when(playerService).deletePlayer(1L);
         mvc.perform(delete("/player/delete-player").contentType(MediaType.APPLICATION_JSON_VALUE)
-                            .content(MAPPER.writeValueAsString(playerID))).andExpect(status().isOk());
+                            .content(MAPPER.writeValueAsString(1L))).andExpect(status().isOk());
     }
 
     @Test

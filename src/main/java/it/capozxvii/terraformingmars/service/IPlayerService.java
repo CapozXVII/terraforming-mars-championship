@@ -1,7 +1,6 @@
 package it.capozxvii.terraformingmars.service;
 
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
-import it.capozxvii.terraformingmars.model.jpa.compositekeys.PlayerID;
 import java.util.List;
 
 
@@ -10,9 +9,9 @@ public interface IPlayerService {
 
     PlayerDto updatePlayer(PlayerDto player);
 
-    void deletePlayer(PlayerID playerID);
+    void deletePlayer(Long playerId);
 
-    PlayerDto getPlayerById(PlayerID playerID);
+    PlayerDto getPlayerById(Long playerId);
     
     List<PlayerDto> getAllPlayers();
 }
