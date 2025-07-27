@@ -26,4 +26,4 @@ INSERT INTO points (
 (2, 30, 12, 16, 5, 5, 27, '{"politics": "1"}', 'ECOLINE', 'MARTIAN_INDUSTRIES', 'GALILEAN_MINING', 1,  2),
 
 -- Ivan
-(3, 26, 5, 10, 5, 0, 13, '', 'HELION', 'MOHOLE_EXCAVATION', 'POLAR_INDUSTRIES', 1,  3);
+(3, 26, 5, 10, 5, 0, 13, '{}', 'HELION', 'MOHOLE_EXCAVATION', 'POLAR_INDUSTRIES', 1,  3);

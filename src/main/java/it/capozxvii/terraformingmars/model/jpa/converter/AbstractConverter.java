@@ -24,7 +24,7 @@ public abstract class AbstractConverter<K, V> implements AttributeConverter<Map<
         try {
             categories = MAPPER.writeValueAsString(otherCategories);
         } catch (final JsonProcessingException e) {
-            LOG.error("JSON writing error", e);
+            LOG.error("JSON writing error {}", e.getMessage());
             throw new TerraformingMarsException(Message.ERROR_WHILE_CONVERTING_TO_JSON, otherCategories);
         }
         return categories;
@@ -35,7 +35,7 @@ public abstract class AbstractConverter<K, V> implements AttributeConverter<Map<
         try {
             return MAPPER.readValue(otherCategoriesJson, typeReference);
         } catch (final IOException e) {
-            LOG.error("JSON reading error", e);
+            LOG.error("JSON reading error: {}", e.getMessage());
             return new HashMap<>();
         }
     }
