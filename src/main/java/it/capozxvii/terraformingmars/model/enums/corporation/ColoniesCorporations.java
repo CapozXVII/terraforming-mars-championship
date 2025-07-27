@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ColoniesCorporations implements Corporation {
     ARKLIGHT("Arklight"),
-    CELESTIOR("Celestior"),
-    PARADOX_INTERACTIVE("Paradox Interactive"),
+    ARIDOR("Aridor"),
+    POLYPHEMOS("Polyphemos"),
     POSEIDON("Poseidon"),
     STORMCRAFT_INCORPORATED("StormCraft Incorporated");
 
