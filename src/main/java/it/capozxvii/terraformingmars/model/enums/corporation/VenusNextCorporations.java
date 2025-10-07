@@ -10,7 +10,7 @@ public enum VenusNextCorporations implements Corporation {
     MORNING_STAR_INC("Morning Star Inc."),
     VENERA_INSTITUTE("Venera Institute");
 
-    public static final String EXPANSION = "VenusNext";
+    public static final String EXPANSION = "Venus Next";
     
     private final String name;
 

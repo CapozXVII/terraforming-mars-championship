@@ -8,4 +8,5 @@ public interface IDraftingService {
 
     List<DraftingDto> editDrafting(DraftingDto draftingDto);
 
+    List<DraftingDto> viewDraftings(long championshipId);
 }

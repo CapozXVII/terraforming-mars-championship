@@ -54,7 +54,7 @@ CREATE TABLE points
 CREATE TABLE drafting
 (
     id              BIGINT PRIMARY KEY,
-    draftings       VARCHAR(255),
+    draftings       TEXT,
     player_id       BIGINT,
     championship    BIGINT,
     CONSTRAINT fk_drafting_championship FOREIGN KEY (championship) REFERENCES championship (id),

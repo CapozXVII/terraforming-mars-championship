@@ -27,3 +27,24 @@ INSERT INTO points (
 
 -- Ivan
 (3, 26, 5, 10, 5, 0, 13, '{}', 'HELION', 'MOHOLE_EXCAVATION', 'POLAR_INDUSTRIES', 1,  3);
+
+insert into drafting (id, draftings, player_id,championship) values 
+                                                                 (1, '
+                             {"1":{"firstExpansion":"Venus Next","secondExpansion":"Prelude"}, 
+                      
+                             "2":{"firstExpansion":"Corporate Era","secondExpansion":"Prelude"}, 
+                      
+                             "3":{"firstExpansion":"Colonies","secondExpansion":"Prelude"},
+                                                                     "4":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}}',
+                                                                  
+                                                                  2, 1);
+insert into drafting (id, draftings, player_id,championship) values
+    (2, '
+                             {"1":{"firstExpansion":"Venus Next","secondExpansion":"Prelude"}, 
+                      
+                             "2":{"firstExpansion":"Corporate Era","secondExpansion":"Prelude"}, 
+                      
+                             "3":{"firstExpansion":"Colonies","secondExpansion":"Prelude"},
+                                                                     "4":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}}',
+
+     1, 1);

@@ -1,5 +1,6 @@
 package it.capozxvii.terraformingmars.model.jpa;
 
+import it.capozxvii.terraformingmars.model.dto.CorporationsExpansionPairDto;
 import it.capozxvii.terraformingmars.model.jpa.converter.DraftingCorporationsForGamesConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -11,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,7 +41,7 @@ public class Drafting {
     protected Long draftingId;
 
     @Convert(converter = DraftingCorporationsForGamesConverter.class)
-    private Map<Integer, List<String>> draftings;
+    private Map<Integer, CorporationsExpansionPairDto> draftings;
 
     @ManyToOne
     @JoinColumn(name = "player_id", referencedColumnName = "id")

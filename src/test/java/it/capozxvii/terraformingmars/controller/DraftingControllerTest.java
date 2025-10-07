@@ -3,11 +3,13 @@ package it.capozxvii.terraformingmars.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import it.capozxvii.terraformingmars.abstracts.AbstractControllerTest;
+import it.capozxvii.terraformingmars.model.dto.CorporationsExpansionPairDto;
 import it.capozxvii.terraformingmars.model.dto.DraftingDto;
 import it.capozxvii.terraformingmars.model.enums.corporation.ColoniesCorporations;
 import it.capozxvii.terraformingmars.model.enums.corporation.CorporateEraCorporations;
@@ -26,32 +28,45 @@ import org.springframework.http.MediaType;
 @WebMvcTest(DraftingController.class)
 class DraftingControllerTest extends AbstractControllerTest {
 
+
     @Test
     void insertDraftingTest() throws Exception {
         List<DraftingDto> draftingDtoList = new ArrayList<>();
-        Map<Integer, List<String>> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        DraftingDto draftingDtoCapoz = createPrevisionDto(1L,
-                                                         1L,
-                                                          corporationDecksToDraft);
+        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+                .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+                .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+                .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        DraftingDto draftingDtoCapoz = createDraftingDto(1L,
+                                                         createPlayerDto("aNickname", "aFullname", 1L),
+                                                         corporationDecksToDraft);
         draftingDtoList.add(draftingDtoCapoz);
 
         corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
+        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+                .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+                .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+                .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
 
         DraftingDto draftingDtoLudovick =
-                createPrevisionDto(1L, 2L,
-                                   corporationDecksToDraft);
+                createDraftingDto(1L, createPlayerDto("bNickname", "bFullname", 2L),
+                                  corporationDecksToDraft);
         draftingDtoList.add(draftingDtoLudovick);
 
         draftingDtoCapoz.setId(1L);
         draftingDtoLudovick.setId(2L);
         List<DraftingDto> prevRes = List.of(draftingDtoCapoz, draftingDtoLudovick);
-        when(previsionService.insertDrafting(draftingDtoList)).thenReturn(prevRes);
+        when(draftinService.insertDrafting(draftingDtoList)).thenReturn(prevRes);
 
         List<DraftingDto> res =
                 MAPPER.readValue(
@@ -68,16 +83,22 @@ class DraftingControllerTest extends AbstractControllerTest {
     @Test
     void insertDraftingPlayerNotExistingTest() throws Exception {
         List<DraftingDto> draftingDtoList = new ArrayList<>();
-        Map<Integer, List<String>> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        DraftingDto draftingDtoCapoz = createPrevisionDto(1L,
-                                                          1L,
-                                                          corporationDecksToDraft);
+        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+                .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+                .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+                .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        DraftingDto draftingDtoCapoz = createDraftingDto(1L,
+                                                         createPlayerDto("aNickname", "aFullname", 1L),
+                                                         corporationDecksToDraft);
         draftingDtoList.add(draftingDtoCapoz);
         doThrow(new TerraformingMarsException("Player with id [1L] not found")).when(
-                previsionService).insertDrafting(draftingDtoList);
+                draftinService).insertDrafting(draftingDtoList);
 
         String res =
                 MAPPER.readValue(
@@ -95,16 +116,22 @@ class DraftingControllerTest extends AbstractControllerTest {
     @Test
     void insertDraftingChampionshipNotExistingTest() throws Exception {
         List<DraftingDto> draftingDtoList = new ArrayList<>();
-        Map<Integer, List<String>> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, List.of(VenusNextCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(2, List.of(CorporateEraCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        corporationDecksToDraft.put(3, List.of(ColoniesCorporations.EXPANSION, PreludeCorporations.EXPANSION));
-        DraftingDto draftingDtoCapoz = createPrevisionDto(100L,
-                                                          1L,
-                                                          corporationDecksToDraft);
+        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+                .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+                .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+                .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        DraftingDto draftingDtoCapoz = createDraftingDto(100L,
+                                                         createPlayerDto("aNickname", "aFullname", 1L),
+                                                         corporationDecksToDraft);
         draftingDtoList.add(draftingDtoCapoz);
         doThrow(new TerraformingMarsException("Championship with id 100 not found")).when(
-                previsionService).insertDrafting(draftingDtoList);
+                draftinService).insertDrafting(draftingDtoList);
 
         String res =
                 MAPPER.readValue(
@@ -117,5 +144,64 @@ class DraftingControllerTest extends AbstractControllerTest {
 
         assertEquals("Championship with id 100 not found", res);
 
+    }
+
+    @Test
+    void viewDraftingsTest() throws Exception {
+
+        List<DraftingDto> draftingDtoList = new ArrayList<>();
+        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+                .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+                .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+                .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+
+        draftingDtoList.add(
+                createDraftingDto(1L, createPlayerDto("aNickname", "aFullname", 1L), corporationDecksToDraft));
+
+        corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+                .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+                .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+                .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        draftingDtoList.add(
+                createDraftingDto(1L, createPlayerDto("bNickname", "bFullname", 2L), corporationDecksToDraft));
+
+        corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+                .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+                .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+                .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
+                .build());
+        draftingDtoList.add(
+                createDraftingDto(1L, createPlayerDto("cNickname", "cFullname", 3L), corporationDecksToDraft));
+
+        when(draftinService.viewDraftings(1L)).thenReturn(draftingDtoList);
+
+
+        List<DraftingDto> res =
+                MAPPER.readValue(
+                        mvc.perform(get("/drafting/view-draftings").contentType(MediaType.APPLICATION_JSON_VALUE)
+                                            .queryParam("championshipId", "1"))
+                                .andExpect(status().isOk()).andReturn()
+                                .getResponse().getContentAsString(),
+                        new TypeReference<CollectionWrapper<DraftingDto>>() {
+                        }).getResponseObject();
+
+        assertEquals(draftingDtoList, res);
     }
 }

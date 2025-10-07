@@ -16,7 +16,7 @@ public enum CorporateEraCorporations implements Corporation {
     UNMI("United Nations Mars Initiative (UNMI)"),
     TERACTOR("Teractor");
 
-    public static final String EXPANSION = "CorporateEra";
+    public static final String EXPANSION = "Corporate Era";
 
     private final String name;
 

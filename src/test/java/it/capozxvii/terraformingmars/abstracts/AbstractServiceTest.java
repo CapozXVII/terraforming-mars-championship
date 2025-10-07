@@ -31,7 +31,7 @@ public abstract class AbstractServiceTest extends AbstractTest {
     @Autowired
     protected IPlayerService playerService;
     @Autowired
-    protected IDraftingService previsionService;
+    protected IDraftingService draftingService;
     @Autowired
     protected ChampionshipRepository championshipRepository;
     @Autowired
