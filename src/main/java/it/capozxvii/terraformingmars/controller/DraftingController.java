@@ -6,9 +6,11 @@ import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController(value = "Drafting Controller")
@@ -28,6 +30,21 @@ public class DraftingController {
             return ResponseEntity.ok(
                     CollectionWrapper.<DraftingDto>builder()
                             .responseObject(draftingService.insertDrafting(draftingDtos)).build());
+        } catch (TerraformingMarsException terraformingMarsException) {
+            return ResponseEntity.internalServerError()
+                    .body(CollectionWrapper.<DraftingDto>builder().message(terraformingMarsException.getMessage())
+                                  .build());
+        }
+    }
+
+    @GetMapping(value = "/view-draftings")
+    public ResponseEntity<CollectionWrapper<DraftingDto>> viewDraftings(
+            @RequestParam("championshipId") final Long championshipId) {
+        try {
+            return ResponseEntity.ok(
+                    CollectionWrapper.<DraftingDto>builder()
+                            .responseObject(draftingService.viewDraftings(championshipId))
+                            .build());
         } catch (TerraformingMarsException terraformingMarsException) {
             return ResponseEntity.internalServerError()
                     .body(CollectionWrapper.<DraftingDto>builder().message(terraformingMarsException.getMessage())

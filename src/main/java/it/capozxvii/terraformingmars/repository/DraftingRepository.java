@@ -7,5 +7,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DraftingRepository extends JpaRepository<Drafting, Long> {
-    List<Drafting> getPrevisionsByPlayerAndChampionship(Player player, Championship championship);
+    List<Drafting> getDraftingsByPlayerAndChampionship(Player player, Championship championship);
+
+    List<Drafting> getDraftingsByChampionship(Championship championship);
 }

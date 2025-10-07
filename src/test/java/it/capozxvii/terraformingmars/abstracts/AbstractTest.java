@@ -3,6 +3,7 @@ package it.capozxvii.terraformingmars.abstracts;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import it.capozxvii.terraformingmars.model.dto.CorporationsExpansionPairDto;
 import it.capozxvii.terraformingmars.model.dto.DraftingDto;
 import it.capozxvii.terraformingmars.model.dto.GameDto;
 import it.capozxvii.terraformingmars.model.dto.PlayerDto;
@@ -10,6 +11,7 @@ import it.capozxvii.terraformingmars.model.dto.PointsDto;
 import it.capozxvii.terraformingmars.model.enums.corporation.Corporation;
 import it.capozxvii.terraformingmars.model.enums.prelude.PreludeEnum;
 import it.capozxvii.terraformingmars.model.jpa.Championship;
+import it.capozxvii.terraformingmars.model.jpa.Drafting;
 import it.capozxvii.terraformingmars.model.jpa.Game;
 import it.capozxvii.terraformingmars.model.jpa.Player;
 import it.capozxvii.terraformingmars.model.jpa.Points;
@@ -43,6 +45,13 @@ public abstract class AbstractTest {
 
     protected Player createPlayer(final String nickname, final String fullname) {
         return Player.builder().nickname(nickname).fullname(fullname).build();
+    }
+    
+    protected Drafting createDrafting(final Player player, final Map<Integer, CorporationsExpansionPairDto> draftings,
+            final Championship championship) {
+        return Drafting.builder().draftings(draftings)
+                .player(player)
+                .championship(championship).build();
     }
 
     protected Points createPoints(
@@ -102,11 +111,11 @@ public abstract class AbstractTest {
                 .corporation(corporation.getName()).player(playerDto).build();
     }
 
-    protected DraftingDto createPrevisionDto(final Long championshipId,
-            final Long playerID,
-            final Map<Integer, List<String>> chosenCharacters) {
-        return DraftingDto.builder().championshipId(championshipId).draftings(chosenCharacters)
-                .playerId(playerID).build();
+    protected DraftingDto createDraftingDto(final Long championshipId,
+            final PlayerDto playerDto,
+            final Map<Integer, CorporationsExpansionPairDto> chosenCorps) {
+        return DraftingDto.builder().championshipId(championshipId).draftings(chosenCorps)
+                .player(playerDto).build();
     }
 
     protected void checkPointsDto(

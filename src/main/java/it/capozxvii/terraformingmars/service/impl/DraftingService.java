@@ -12,11 +12,15 @@ import it.capozxvii.terraformingmars.service.IDraftingService;
 import it.capozxvii.terraformingmars.util.Utils;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DraftingService implements IDraftingService {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(DraftingService.class);
 
     private final PlayerRepository playerRepository;
 
@@ -44,9 +48,9 @@ public class DraftingService implements IDraftingService {
     @Transactional
     public List<DraftingDto> insertDrafting(final List<DraftingDto> draftingDtos) {
         return draftingDtos.stream().map(previsionDto -> {
-            Player player = utils.checkAndGetEntity(playerRepository, Player.class, previsionDto.getPlayerId());
+            Player player = utils.checkAndGetEntity(playerRepository, Player.class, previsionDto.getPlayer().getId());
             Championship championship = utils.checkAndGetEntity(championshipRepository, Championship.class,
-                    previsionDto.getChampionshipId());
+                                                                previsionDto.getChampionshipId());
 
             return draftingMapper.toDto(draftingRepository.save(
                     draftingMapper.toEntity(player, championship, previsionDto.getDraftings())));
@@ -57,12 +61,18 @@ public class DraftingService implements IDraftingService {
     @Override
     @Transactional
     public List<DraftingDto> editDrafting(final DraftingDto previsionDto) {
-        Player player = utils.checkAndGetEntity(playerRepository, Player.class, previsionDto.getPlayerId());
-        Championship championship = utils.checkAndGetEntity(championshipRepository, Championship.class,
-                previsionDto.getChampionshipId());
+        utils.checkAndGetEntity(playerRepository, Player.class, previsionDto.getPlayer().getId());
+        utils.checkAndGetEntity(championshipRepository, Championship.class,
+                                                            previsionDto.getChampionshipId());
         Drafting prevision = utils.checkAndGetEntity(draftingRepository, Drafting.class, previsionDto.getId());
         prevision.getDraftings().putAll(previsionDto.getDraftings());
-        return List.of(draftingMapper.toDto(draftingRepository.save(
-                draftingMapper.toEntity(player, championship, prevision.getDraftings()))));
+        return List.of(draftingMapper.toDto(prevision));
+    }
+
+    @Override
+    public List<DraftingDto> viewDraftings(final long championshipId) {
+        Championship championship = utils.checkAndGetEntity(championshipRepository, Championship.class, championshipId);
+        return draftingRepository.getDraftingsByChampionship(championship).stream().map(draftingMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

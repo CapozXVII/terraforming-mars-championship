@@ -33,7 +33,7 @@ public abstract class AbstractControllerTest extends AbstractTest {
     protected IPlayerService playerService;
 
     @MockitoBean
-    protected IDraftingService previsionService;
+    protected IDraftingService draftinService;
 
     @BeforeAll
     public static void setup() throws Exception {
