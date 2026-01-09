@@ -35,7 +35,19 @@ insert into drafting (id, draftings, player_id,championship) values
                              "2":{"firstExpansion":"Corporate Era","secondExpansion":"Prelude"}, 
                       
                              "3":{"firstExpansion":"Colonies","secondExpansion":"Prelude"},
-                                                                     "4":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}}',
+                                                                     "4":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}, 
+                      
+                             "5":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}, 
+                      
+                             "6":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}, 
+                      
+                             "7":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}, 
+                      
+                             "8":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}, 
+                      
+                             "9":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}, 
+                      
+                             "10":{"firstExpansion":"Colonies","secondExpansion":"Prelude"}}',
                                                                   
                                                                   2, 1);
 insert into drafting (id, draftings, player_id,championship) values
