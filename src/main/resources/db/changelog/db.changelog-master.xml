@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002-create-sequences" author="CapozXVII">
+        <createSequence sequenceName="player_id_seq" startValue="1"/>
+        <createSequence sequenceName="game_id_seq" startValue="1"/>
+        <createSequence sequenceName="championship_id_seq" startValue="1"/>
+        <createSequence sequenceName="match_id_seq" startValue="1"/>
+        <createSequence sequenceName="drafting_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="003-create-table-player" author="CapozXVII">
+        <createTable tableName="player">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nickname" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="fullname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-create-table-game" author="CapozXVII">
+        <createTable tableName="game">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="game_date" type="TIMESTAMP"/>
+            <column name="championship_id" type="BIGINT"/>
+            <column name="location" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="005-create-table-championship" author="CapozXVII">
+        <createTable tableName="championship">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="championship_name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="starting_date" type="TIMESTAMP"/>
+            <column name="ending_date" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="006-create-table-points" author="CapozXVII">
+        <createTable tableName="points">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="player_id" type="BIGINT"/>
+            <column name="game_id" type="BIGINT"/>
+            <column name="corporation" type="VARCHAR(100)"/>
+            <column name="prelude" type="VARCHAR(100)"/>
+            <column name="terraforming_rating" type="INT"/>
+            <column name="greenery" type="INT"/>
+            <column name="city" type="INT"/>
+            <column name="milestones" type="INT"/>
+            <column name="awards" type="INT"/>
+            <column name="cards" type="INT"/>
+            <column name="other_categories" type="TEXT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="007-drafting-table" author="CapozXVII">
+        <createTable tableName="drafting">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="draftings" type="JSONB"/>
+
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="championship" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="008-add-foreign-keys" author="CapozXVII">
+        <addForeignKeyConstraint
+                baseTableName="game"
+                baseColumnNames="championship_id"
+                referencedTableName="championship"
+                referencedColumnNames="id"
+                constraintName="fk_game_championship"/>
+
+        <addForeignKeyConstraint
+                baseTableName="points"
+                baseColumnNames="player_id"
+                referencedTableName="player"
+                referencedColumnNames="id"
+                constraintName="fk_points_player"/>
+
+        <addForeignKeyConstraint
+                baseTableName="points"
+                baseColumnNames="game_id"
+                referencedTableName="game"
+                referencedColumnNames="id"
+                constraintName="fk_points_game"/>
+        <addForeignKeyConstraint
+                baseTableName="drafting"
+                baseColumnNames="player_id"
+                referencedTableName="player"
+                referencedColumnNames="id"
+                constraintName="fk_drafting_player"/>
+
+        <addForeignKeyConstraint
+                baseTableName="drafting"
+                baseColumnNames="championship"
+                referencedTableName="championship"
+                referencedColumnNames="id"
+                constraintName="fk_drafting_championship"/>
+    </changeSet>
+
+</databaseChangeLog>
