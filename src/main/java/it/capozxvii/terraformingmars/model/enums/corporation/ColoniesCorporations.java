@@ -17,4 +17,9 @@ public enum ColoniesCorporations implements Corporation {
     ColoniesCorporations(final String name) {
         this.name = name;
     }
+
+    @Override
+    public String getExpansion() {
+        return EXPANSION;
+    }
 }

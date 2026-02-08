@@ -9,9 +9,15 @@ public enum TurmoilCorporations implements Corporation {
     PRISTAR("Pristar"),
     SEPTEM_TRIBUS("Septem Tribus");
 
+    private static final String EXPANSION = "Turmoil";
+    
     private final String name;
 
     TurmoilCorporations(final String name) {
         this.name = name;
+    }
+    @Override
+    public String getExpansion() {
+        return EXPANSION;
     }
 }

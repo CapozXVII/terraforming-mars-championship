@@ -18,4 +18,8 @@ public enum VenusNextCorporations implements Corporation {
     VenusNextCorporations(final String name) {
         this.name = name;
     }
+    @Override
+    public String getExpansion() {
+        return EXPANSION;
+    }
 }

@@ -37,14 +37,14 @@ class DraftingServiceTest extends AbstractServiceTest {
                                                    ChronoUnit.SECONDS),
                                            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).plusYears(1L)));
         List<DraftingDto> previsions = new ArrayList<>();
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         previsions.add(createDraftingDto(championship.getChampionshipId(),
@@ -52,13 +52,13 @@ class DraftingServiceTest extends AbstractServiceTest {
                                          corporationDecksToDraft));
 
         corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         previsions.add(createDraftingDto(championship.getChampionshipId(),
@@ -113,14 +113,14 @@ class DraftingServiceTest extends AbstractServiceTest {
     void insertDraftingTestExceptions() {
         Player ePlayer = playerRepository.save(createPlayer("eNickname", "fullEName"));
         List<DraftingDto> previsions = new ArrayList<>();
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         previsions.add(createDraftingDto(-10L,
@@ -132,13 +132,13 @@ class DraftingServiceTest extends AbstractServiceTest {
         assertEquals("Player with id [-10] not found", exception.getMessage());
         previsions.clear();
         corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         previsions.add(createDraftingDto(-10L,
@@ -157,14 +157,14 @@ class DraftingServiceTest extends AbstractServiceTest {
                         createChampionship("Terraforming Mars IV Edizione", LocalDateTime.now().truncatedTo(
                                                    ChronoUnit.SECONDS),
                                            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).plusYears(1L)));
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         Drafting drafting = draftingRepository.save(
@@ -174,14 +174,14 @@ class DraftingServiceTest extends AbstractServiceTest {
                 DraftingDto.builder().championshipId(championship.getChampionshipId()).id(drafting.getDraftingId())
                         .player(
                                 createPlayerDto("", "", fPlayer.getPlayerId()))
-                        .draftings(Map.of(2, CorporationsExpansionPairDto.builder()
+                        .draftings(Map.of(2L, CorporationsExpansionPairDto.builder()
                                 .firstExpansion(ColoniesCorporations.EXPANSION)
                                 .secondExpansion(VenusNextCorporations.EXPANSION).build()))
                         .build()));
         Optional<DraftingDto> dto = draftingDtos.stream().findFirst();
         assertTrue(dto.isPresent());
 
-        Map<Integer, CorporationsExpansionPairDto> predictionAfterEdit = dto.get().getDraftings();
+        Map<Long, CorporationsExpansionPairDto> predictionAfterEdit = dto.get().getDraftings();
         assertEquals(3, predictionAfterEdit.size());
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(VenusNextCorporations.EXPANSION)
@@ -200,14 +200,14 @@ class DraftingServiceTest extends AbstractServiceTest {
     @Test
     void viewDraftingsTest() {
 
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         Drafting drafting = createDrafting(genericPlayer, corporationDecksToDraft, genericChampionship);
@@ -217,19 +217,19 @@ class DraftingServiceTest extends AbstractServiceTest {
         assertEquals(1, res.size());
         assertEquals(genericPlayer.getPlayerId(), res.getFirst().getPlayer().getId());
         assertEquals(genericChampionship.getChampionshipId(), res.getFirst().getChampionshipId());
-        Map<Integer, CorporationsExpansionPairDto> resDrafts = res.getFirst().getDraftings();
+        Map<Long, CorporationsExpansionPairDto> resDrafts = res.getFirst().getDraftings();
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(VenusNextCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION).build(),
-                     resDrafts.get(1));
+                     resDrafts.get(1L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(CorporateEraCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION).build(),
-                     resDrafts.get(2));
+                     resDrafts.get(2L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(ColoniesCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION).build(),
-                     resDrafts.get(3));
+                     resDrafts.get(3L));
         
     }
 }
