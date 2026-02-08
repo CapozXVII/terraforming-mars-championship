@@ -76,15 +76,15 @@ class DraftingServiceTest extends AbstractServiceTest {
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(VenusNextCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftingDtoResult.getDraftings().get(1));
+                             .build(), draftingDtoResult.getDraftings().get(1L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(CorporateEraCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftingDtoResult.getDraftings().get(2));
+                             .build(), draftingDtoResult.getDraftings().get(2L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(ColoniesCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftingDtoResult.getDraftings().get(3));
+                             .build(), draftingDtoResult.getDraftings().get(3L));
 
         previsionDtoOptional = draftingDtos.stream()
                 .filter(previsionDto -> previsionDto.getPlayer() != null
@@ -97,15 +97,15 @@ class DraftingServiceTest extends AbstractServiceTest {
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(VenusNextCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftingDtoResult.getDraftings().get(1));
+                             .build(), draftingDtoResult.getDraftings().get(1L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(CorporateEraCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftingDtoResult.getDraftings().get(2));
+                             .build(), draftingDtoResult.getDraftings().get(2L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(ColoniesCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftingDtoResult.getDraftings().get(3));
+                             .build(), draftingDtoResult.getDraftings().get(3L));
 
     }
 
@@ -186,15 +186,15 @@ class DraftingServiceTest extends AbstractServiceTest {
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(VenusNextCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION).build(),
-                     predictionAfterEdit.get(1));
+                     predictionAfterEdit.get(1L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(ColoniesCorporations.EXPANSION)
                              .secondExpansion(VenusNextCorporations.EXPANSION).build(),
-                     predictionAfterEdit.get(2));
+                     predictionAfterEdit.get(2L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(ColoniesCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION).build(),
-                     predictionAfterEdit.get(3));
+                     predictionAfterEdit.get(3L));
     }
 
     @Test
