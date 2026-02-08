@@ -41,7 +41,7 @@ public class Drafting {
     protected Long draftingId;
 
     @Convert(converter = DraftingCorporationsForGamesConverter.class)
-    private Map<Integer, CorporationsExpansionPairDto> draftings;
+    private Map<Long, CorporationsExpansionPairDto> draftings;
 
     @ManyToOne
     @JoinColumn(name = "player_id", referencedColumnName = "id")

@@ -16,7 +16,7 @@ public interface DraftingMapper extends CommonMapper {
 
 
     @Mapping(source = "draftings", target = "draftings")
-    Drafting toEntity(Player player, Championship championship, Map<Integer, CorporationsExpansionPairDto> draftings);
+    Drafting toEntity(Player player, Championship championship, Map<Long, CorporationsExpansionPairDto> draftings);
 
     @Mapping(source = "championship.championshipId", target = "championshipId")
     @Mapping(source = "player", target = "player")

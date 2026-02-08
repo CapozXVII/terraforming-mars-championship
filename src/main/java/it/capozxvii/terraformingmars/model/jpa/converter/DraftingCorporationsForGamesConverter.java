@@ -6,12 +6,12 @@ import jakarta.persistence.Converter;
 import java.util.Map;
 
 @Converter
-public class DraftingCorporationsForGamesConverter extends AbstractConverter<Integer, CorporationsExpansionPairDto> {
-    public String convertToDatabaseColumn(final Map<Integer, CorporationsExpansionPairDto> draftingCorporations) {
+public class DraftingCorporationsForGamesConverter extends AbstractConverter<Long, CorporationsExpansionPairDto> {
+    public String convertToDatabaseColumn(final Map<Long, CorporationsExpansionPairDto> draftingCorporations) {
         return super.convertToDatabaseColumn(draftingCorporations);
     }
 
-    public Map<Integer, CorporationsExpansionPairDto> convertToEntityAttribute(final String draftingCorporationsJson) {
+    public Map<Long, CorporationsExpansionPairDto> convertToEntityAttribute(final String draftingCorporationsJson) {
         return super.convertToEntityAttribute(draftingCorporationsJson, new TypeReference<>() {
         });
     }

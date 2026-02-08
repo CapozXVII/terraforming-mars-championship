@@ -24,14 +24,14 @@ class DraftingCorporationsForGamesConverterTest {
 
     @Test
     void convertToDatabaseColumnTest() {
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         String res = DRAFTING_CORPORATIONS_DECKS_FOR_GAMES.convertToDatabaseColumn(corporationDecksToDraft);
@@ -46,7 +46,7 @@ class DraftingCorporationsForGamesConverterTest {
 
     @Test
     void convertToEntityAttributeTest() {
-        Map<Integer, CorporationsExpansionPairDto> draftedCorps =
+        Map<Long, CorporationsExpansionPairDto> draftedCorps =
                 DRAFTING_CORPORATIONS_DECKS_FOR_GAMES.convertToEntityAttribute(
                         "{\"1\":{\"firstExpansion\":\"Venus Next\",\"secondExpansion\":\"Prelude\"},"
                         + "\"2\":{\"firstExpansion\":\"Corporate Era\",\"secondExpansion\":\"Prelude\"},"
@@ -54,15 +54,15 @@ class DraftingCorporationsForGamesConverterTest {
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(VenusNextCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftedCorps.get(1));
+                             .build(), draftedCorps.get(1L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(CorporateEraCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftedCorps.get(2));
+                             .build(), draftedCorps.get(2L));
         assertEquals(CorporationsExpansionPairDto.builder()
                              .firstExpansion(ColoniesCorporations.EXPANSION)
                              .secondExpansion(PreludeCorporations.EXPANSION)
-                             .build(), draftedCorps.get(3));
+                             .build(), draftedCorps.get(3L));
     }
 
     @Test
@@ -77,9 +77,9 @@ class DraftingCorporationsForGamesConverterTest {
     @Test
     void convertToDatabaseColumnExceptionTest() {
         DraftingCorporationsForGamesConverter converter = mock(DraftingCorporationsForGamesConverter.class);
-        Map<Integer, CorporationsExpansionPairDto> draftedCorps = new HashMap<>();
-        draftedCorps.put(1, null);
-        draftedCorps.put(2, null);
+        Map<Long, CorporationsExpansionPairDto> draftedCorps = new HashMap<>();
+        draftedCorps.put(1L, null);
+        draftedCorps.put(2L, null);
         doThrow(new TerraformingMarsException("Error while converting [{\"1\":null,\"2\":null}] to JSON")).when(
                 converter).convertToDatabaseColumn(draftedCorps);
         TerraformingMarsException res = assertThrows(TerraformingMarsException.class,

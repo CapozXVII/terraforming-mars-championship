@@ -22,5 +22,5 @@ import lombok.experimental.SuperBuilder;
 public class DraftingDto extends AbstractDto implements Serializable {
     private PlayerDto player;
     private Long championshipId;
-    private Map<Integer, CorporationsExpansionPairDto> draftings;
+    private Map<Long, CorporationsExpansionPairDto> draftings;
 }

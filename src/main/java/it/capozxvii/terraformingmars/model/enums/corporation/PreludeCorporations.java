@@ -5,10 +5,15 @@ import lombok.Getter;
 @Getter
 public enum PreludeCorporations implements Corporation {
     CHEUNG_SHING_MARS("Cheung Shing Mars"),
+    ECOTEC("Ecotec"),
+    NIRGAL_ENTERPRISES("Nirgal Enterprises"),
+    PALLADIN_SHIPPING("Palladin Shipping"),
     POINT_LUNA("Point Luna"),
     ROBINSON_INDUSTRIES("Robinson Industries"),
-    VITOR("Vitor"),
-    VALLEY_TRUST("Valley Trust");
+    SAGITTA("Sagitta"),
+    SPIRE("Spire"),
+    VALLEY_TRUST("Valley Trust"),
+    VITOR("Vitor");
 
     public static final String EXPANSION = "Prelude";
 
@@ -16,5 +21,9 @@ public enum PreludeCorporations implements Corporation {
 
     PreludeCorporations(final String name) {
         this.name = name;
+    }
+    @Override
+    public String getExpansion() {
+        return EXPANSION;
     }
 }

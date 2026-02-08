@@ -23,4 +23,9 @@ public enum CorporateEraCorporations implements Corporation {
     CorporateEraCorporations(final String name) {
         this.name = name;
     }
+    
+    @Override
+    public String getExpansion() {
+        return EXPANSION;
+    }
 }

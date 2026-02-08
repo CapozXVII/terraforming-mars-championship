@@ -32,14 +32,14 @@ class DraftingControllerTest extends AbstractControllerTest {
     @Test
     void insertDraftingTest() throws Exception {
         List<DraftingDto> draftingDtoList = new ArrayList<>();
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         DraftingDto draftingDtoCapoz = createDraftingDto(1L,
@@ -48,13 +48,13 @@ class DraftingControllerTest extends AbstractControllerTest {
         draftingDtoList.add(draftingDtoCapoz);
 
         corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
 
@@ -83,14 +83,14 @@ class DraftingControllerTest extends AbstractControllerTest {
     @Test
     void insertDraftingPlayerNotExistingTest() throws Exception {
         List<DraftingDto> draftingDtoList = new ArrayList<>();
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         DraftingDto draftingDtoCapoz = createDraftingDto(1L,
@@ -116,14 +116,14 @@ class DraftingControllerTest extends AbstractControllerTest {
     @Test
     void insertDraftingChampionshipNotExistingTest() throws Exception {
         List<DraftingDto> draftingDtoList = new ArrayList<>();
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         DraftingDto draftingDtoCapoz = createDraftingDto(100L,
@@ -150,14 +150,14 @@ class DraftingControllerTest extends AbstractControllerTest {
     void viewDraftingsTest() throws Exception {
 
         List<DraftingDto> draftingDtoList = new ArrayList<>();
-        Map<Integer, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        Map<Long, CorporationsExpansionPairDto> corporationDecksToDraft = new HashMap<>();
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
 
@@ -165,26 +165,26 @@ class DraftingControllerTest extends AbstractControllerTest {
                 createDraftingDto(1L, createPlayerDto("aNickname", "aFullname", 1L), corporationDecksToDraft));
 
         corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         draftingDtoList.add(
                 createDraftingDto(1L, createPlayerDto("bNickname", "bFullname", 2L), corporationDecksToDraft));
 
         corporationDecksToDraft = new HashMap<>();
-        corporationDecksToDraft.put(1, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(1L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(VenusNextCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(2, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(2L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(CorporateEraCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
-        corporationDecksToDraft.put(3, CorporationsExpansionPairDto.builder()
+        corporationDecksToDraft.put(3L, CorporationsExpansionPairDto.builder()
                 .firstExpansion(ColoniesCorporations.EXPANSION).secondExpansion(PreludeCorporations.EXPANSION)
                 .build());
         draftingDtoList.add(

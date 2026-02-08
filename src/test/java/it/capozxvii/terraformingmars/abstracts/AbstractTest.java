@@ -47,7 +47,7 @@ public abstract class AbstractTest {
         return Player.builder().nickname(nickname).fullname(fullname).build();
     }
     
-    protected Drafting createDrafting(final Player player, final Map<Integer, CorporationsExpansionPairDto> draftings,
+    protected Drafting createDrafting(final Player player, final Map<Long, CorporationsExpansionPairDto> draftings,
             final Championship championship) {
         return Drafting.builder().draftings(draftings)
                 .player(player)
@@ -113,7 +113,7 @@ public abstract class AbstractTest {
 
     protected DraftingDto createDraftingDto(final Long championshipId,
             final PlayerDto playerDto,
-            final Map<Integer, CorporationsExpansionPairDto> chosenCorps) {
+            final Map<Long, CorporationsExpansionPairDto> chosenCorps) {
         return DraftingDto.builder().championshipId(championshipId).draftings(chosenCorps)
                 .player(playerDto).build();
     }

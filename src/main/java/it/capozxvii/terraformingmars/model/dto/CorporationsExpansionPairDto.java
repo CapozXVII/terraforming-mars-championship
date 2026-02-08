@@ -14,4 +14,5 @@ import lombok.NoArgsConstructor;
 public class CorporationsExpansionPairDto {
     private String firstExpansion;
     private String secondExpansion;
+    private String chosenExpansion;
 }
