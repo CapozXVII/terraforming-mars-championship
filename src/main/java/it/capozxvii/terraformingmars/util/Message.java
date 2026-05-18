@@ -8,7 +8,7 @@ public final class Message {
 
     public static final String SUCCESSFULLY_UPDATED = "{} with id [{}] has been updated";
 
-    public static final String SUCCESSFULLY_DELETED = "{} with id [{}] has been saved";
+    public static final String SUCCESSFULLY_DELETED = "{} with id [{}] has been deleted";
 
     public static final String POINTS_SUCCESSFULLY_SAVED = "Points have been saved";
 
