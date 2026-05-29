@@ -41,6 +41,7 @@ public class Drafting {
     protected Long draftingId;
 
     @Convert(converter = DraftingCorporationsForGamesConverter.class)
+    @Column(name = "draftings", columnDefinition = "jsonb")
     private Map<Long, CorporationsExpansionPairDto> draftings;
 
     @ManyToOne
