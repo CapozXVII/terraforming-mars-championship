@@ -30,7 +30,7 @@ INSERT INTO points (
 
 insert into drafting (id, draftings, player_id,championship) values 
                                                                  (1, '
-                             {"1":{"firstExpansion":"Venus Next","secondExpansion":"Prelude"}, 
+                             {"1":{"firstExpansion":"Venus Next","secondExpansion":"Prelude", "chosenExpansion": "Venus Next"}, 
                       
                              "2":{"firstExpansion":"Corporate Era","secondExpansion":"Prelude"}, 
                       
