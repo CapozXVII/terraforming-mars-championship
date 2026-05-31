@@ -4,7 +4,6 @@ import it.capozxvii.terraformingmars.model.dto.PlayerDto;
 import it.capozxvii.terraformingmars.model.jpa.Player;
 import it.capozxvii.terraformingmars.service.IPlayerService;
 import it.capozxvii.terraformingmars.util.Message;
-import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
 import org.springframework.http.HttpStatus;
@@ -29,12 +28,7 @@ public class PlayerController {
 
     @PostMapping("/insert-player")
     public ResponseEntity<SimpleWrapper<PlayerDto>> insertPlayer(@RequestBody final PlayerDto playerDto) {
-        try {
-            playerService.insertPlayer(playerDto);
-        } catch (TerraformingMarsException terraformingMarsException) {
-            return ResponseEntity.internalServerError().body(SimpleWrapper.<PlayerDto>builder().message(
-                    terraformingMarsException.getMessage()).build());
-        }
+        playerService.insertPlayer(playerDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(SimpleWrapper.<PlayerDto>builder().message(
                 Message.formatMessage(Message.SUCCESSFULLY_SAVED, Player.class.getSimpleName(),
                                       playerDto.getNickname())).build());
@@ -42,12 +36,7 @@ public class PlayerController {
 
     @PutMapping("/update-player")
     public ResponseEntity<SimpleWrapper<PlayerDto>> updatePlayer(@RequestBody final PlayerDto playerDto) {
-        try {
-            playerService.updatePlayer(playerDto);
-        } catch (TerraformingMarsException terraformingMarsException) {
-            return ResponseEntity.internalServerError().body(SimpleWrapper.<PlayerDto>builder().message(
-                    terraformingMarsException.getMessage()).build());
-        }
+        playerService.updatePlayer(playerDto);
         return ResponseEntity.ok(SimpleWrapper.<PlayerDto>builder().message(
                 Message.formatMessage(Message.SUCCESSFULLY_UPDATED, Player.class.getSimpleName(),
                                       playerDto.getNickname())).build());
@@ -55,25 +44,15 @@ public class PlayerController {
 
     @DeleteMapping("/delete-player")
     public ResponseEntity<SimpleWrapper<PlayerDto>> deletePlayer(@RequestBody final Long playerId) {
-        try {
-            playerService.deletePlayer(playerId);
-        } catch (TerraformingMarsException terraformingMarsException) {
-            return ResponseEntity.internalServerError().body(SimpleWrapper.<PlayerDto>builder().message(
-                    terraformingMarsException.getMessage()).build());
-        }
+        playerService.deletePlayer(playerId);
         return ResponseEntity.ok(SimpleWrapper.<PlayerDto>builder().message(
                 Message.formatMessage(Message.SUCCESSFULLY_DELETED, Player.class.getSimpleName(), playerId)).build());
     }
 
     @GetMapping
     public ResponseEntity<SimpleWrapper<PlayerDto>> getPlayer(@RequestBody final Long playerId) {
-        try {
-            return ResponseEntity.ok(
-                    SimpleWrapper.<PlayerDto>builder().responseObject(playerService.getPlayerById(playerId)).build());
-        } catch (TerraformingMarsException terraformingMarsException) {
-            return ResponseEntity.internalServerError().body(SimpleWrapper.<PlayerDto>builder().message(
-                    terraformingMarsException.getMessage()).build());
-        }
+        return ResponseEntity.ok(
+                SimpleWrapper.<PlayerDto>builder().responseObject(playerService.getPlayerById(playerId)).build());
     }
 
     @GetMapping("/all-players")

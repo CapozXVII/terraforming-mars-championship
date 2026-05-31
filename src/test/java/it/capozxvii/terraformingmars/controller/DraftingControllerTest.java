@@ -17,6 +17,7 @@ import it.capozxvii.terraformingmars.model.enums.corporation.PreludeCorporations
 import it.capozxvii.terraformingmars.model.enums.corporation.VenusNextCorporations;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
+import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,7 +107,7 @@ class DraftingControllerTest extends AbstractControllerTest {
                                             .content(MAPPER.writeValueAsString(draftingDtoList)))
                                 .andExpect(status().isInternalServerError()).andReturn()
                                 .getResponse().getContentAsString(),
-                        new TypeReference<CollectionWrapper<DraftingDto>>() {
+                        new TypeReference<SimpleWrapper<DraftingDto>>() {
                         }).getMessage();
 
         assertEquals("Player with id [1L] not found", res);
@@ -139,7 +140,7 @@ class DraftingControllerTest extends AbstractControllerTest {
                                             .content(MAPPER.writeValueAsString(draftingDtoList)))
                                 .andExpect(status().isInternalServerError()).andReturn()
                                 .getResponse().getContentAsString(),
-                        new TypeReference<CollectionWrapper<DraftingDto>>() {
+                        new TypeReference<SimpleWrapper<DraftingDto>>() {
                         }).getMessage();
 
         assertEquals("Championship with id 100 not found", res);

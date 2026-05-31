@@ -1,5 +1,6 @@
 package it.capozxvii.terraformingmars.controller;
 
+import static it.capozxvii.terraformingmars.controller.ControllerExceptionInterceptor.UNKNOWN_ERROR_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -8,8 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import it.capozxvii.terraformingmars.abstracts.AbstractControllerTest;
 import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
+import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,13 +44,29 @@ class ReportControllerTest extends AbstractControllerTest {
         TerraformingMarsException exception = new TerraformingMarsException("Unknown error");
         when(reportService.createChampionshipReport(1L)).thenThrow(exception);
 
-        String res = mvc.perform(get("/report/championship-report").param("championshipId", "1"))
+        String content = mvc.perform(get("/report/championship-report").param("championshipId", "1"))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentType(MediaType.TEXT_PLAIN))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+        String res = MAPPER.readValue(content, new TypeReference<SimpleWrapper<?>>() {
+        }).getMessage();
 
         assertEquals("Unknown error", res);
+    }
+
+    @Test
+    void createChampionshipReportUnknownExceptionTest() throws Exception {
+        when(reportService.createChampionshipReport(1L)).thenThrow(new RuntimeException("Unexpected error"));
+
+        String content = mvc.perform(get("/report/championship-report").param("championshipId", "1"))
+                .andExpect(status().isInternalServerError())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        String res = MAPPER.readValue(content, new TypeReference<SimpleWrapper<?>>() {
+        }).getMessage();
+
+        assertEquals(UNKNOWN_ERROR_MESSAGE, res);
     }
 }

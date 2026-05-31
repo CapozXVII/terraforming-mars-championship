@@ -389,6 +389,7 @@ public class ReportService implements IReportService {
             addMixedLine(lines, List.of(boldText("  Preludes"),
                                         regularText(": " + text(pointsDto.getFirstPrelude()) + " / "
                                                     + text(pointsDto.getSecondPrelude()))));
+            addLine(lines, "");
         });
     }
 

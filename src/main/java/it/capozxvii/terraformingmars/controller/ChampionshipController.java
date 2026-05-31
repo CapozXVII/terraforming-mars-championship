@@ -2,7 +2,6 @@ package it.capozxvii.terraformingmars.controller;
 
 import it.capozxvii.terraformingmars.model.dto.ChampionshipDto;
 import it.capozxvii.terraformingmars.service.IChampionshipService;
-import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +25,9 @@ public class ChampionshipController {
     @PostMapping("/insert-championship")
     public ResponseEntity<SimpleWrapper<ChampionshipDto>> insertChampionship(
             @RequestBody final ChampionshipDto championshipDto) {
-        try {
-            return ResponseEntity.ok(SimpleWrapper.<ChampionshipDto>builder()
-                                             .responseObject(championshipService.createChampionship(championshipDto))
-                                             .build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(SimpleWrapper.<ChampionshipDto>builder().message(e.getMessage()).build());
-        }
+        return ResponseEntity.ok(SimpleWrapper.<ChampionshipDto>builder()
+                                         .responseObject(championshipService.createChampionship(championshipDto))
+                                         .build());
     }
 
     @GetMapping("/all-championships")
@@ -48,29 +42,17 @@ public class ChampionshipController {
     public ResponseEntity<SimpleWrapper<ChampionshipDto>> getChampionshipById(
 
             @RequestParam("championshipId") final Long championshipId) {
-        try {
-            return ResponseEntity.ok(SimpleWrapper.<ChampionshipDto>builder()
-                                             .responseObject(championshipService.getChampionshipById(championshipId))
-                                             .build());
-        } catch (TerraformingMarsException e) {
-            return ResponseEntity.internalServerError()
-                    .body(SimpleWrapper.<ChampionshipDto>builder().message(e.getMessage()).build());
-        }
-
+        return ResponseEntity.ok(SimpleWrapper.<ChampionshipDto>builder()
+                                         .responseObject(championshipService.getChampionshipById(championshipId))
+                                         .build());
     }
 
     @GetMapping("get-by-name")
     @Transactional
     public ResponseEntity<SimpleWrapper<ChampionshipDto>> getChampionshipByName(
             @RequestParam("championship-name") final String championshipName) {
-        try {
-            return ResponseEntity.ok(SimpleWrapper.<ChampionshipDto>builder()
-                                             .responseObject(
-                                                     championshipService.getChampionshipByName(championshipName))
-                                             .build());
-        } catch (TerraformingMarsException e) {
-            return ResponseEntity.internalServerError()
-                    .body(SimpleWrapper.<ChampionshipDto>builder().message(e.getMessage()).build());
-        }
+        return ResponseEntity.ok(SimpleWrapper.<ChampionshipDto>builder()
+                                         .responseObject(championshipService.getChampionshipByName(championshipName))
+                                         .build());
     }
 }
