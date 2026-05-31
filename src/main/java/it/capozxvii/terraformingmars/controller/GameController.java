@@ -2,7 +2,6 @@ package it.capozxvii.terraformingmars.controller;
 
 import it.capozxvii.terraformingmars.model.dto.GameDto;
 import it.capozxvii.terraformingmars.service.IGameService;
-import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import it.capozxvii.terraformingmars.util.wrapper.SimpleWrapper;
 import org.springframework.http.ResponseEntity;
@@ -26,38 +25,22 @@ public class GameController {
 
     @PostMapping("/insert-game")
     public ResponseEntity<SimpleWrapper<GameDto>> insertGame(@RequestBody final GameDto gameDto) {
-        try {
-            return ResponseEntity.ok()
-                    .body(SimpleWrapper.<GameDto>builder().responseObject(gameService.insertGame(gameDto)).build());
-        } catch (TerraformingMarsException e) {
-            return ResponseEntity.internalServerError()
-                    .body(SimpleWrapper.<GameDto>builder().message(e.getMessage()).build());
-        }
+        return ResponseEntity.ok()
+                .body(SimpleWrapper.<GameDto>builder().responseObject(gameService.insertGame(gameDto)).build());
     }
 
     @PutMapping("/edit-game")
     public ResponseEntity<SimpleWrapper<GameDto>> editGame(@RequestBody final GameDto gameDto) {
-        try {
-            return ResponseEntity.ok()
-                    .body(SimpleWrapper.<GameDto>builder().responseObject(gameService.editGame(gameDto)).build());
-        } catch (TerraformingMarsException e) {
-            return ResponseEntity.internalServerError()
-                    .body(SimpleWrapper.<GameDto>builder().message(e.getMessage()).build());
-        }
+        return ResponseEntity.ok()
+                .body(SimpleWrapper.<GameDto>builder().responseObject(gameService.editGame(gameDto)).build());
     }
 
     @GetMapping("/find-by-location")
     public ResponseEntity<CollectionWrapper<GameDto>> findGameByLocation(
             @RequestParam("location") final String location) {
-
-        try {
-            return ResponseEntity.ok()
-                    .body(CollectionWrapper.<GameDto>builder().responseObject(gameService.findByLocation(location))
-                                  .build());
-        } catch (TerraformingMarsException e) {
-            return ResponseEntity.internalServerError()
-                    .body(CollectionWrapper.<GameDto>builder().message(e.getMessage()).build());
-        }
+        return ResponseEntity.ok()
+                .body(CollectionWrapper.<GameDto>builder().responseObject(gameService.findByLocation(location))
+                              .build());
     }
 
     @GetMapping("/games-of-championship")

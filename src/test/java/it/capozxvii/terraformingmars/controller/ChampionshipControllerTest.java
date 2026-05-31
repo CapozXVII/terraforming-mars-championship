@@ -1,5 +1,6 @@
 package it.capozxvii.terraformingmars.controller;
 
+import static it.capozxvii.terraformingmars.controller.ControllerExceptionInterceptor.UNKNOWN_ERROR_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -62,6 +63,25 @@ class ChampionshipControllerTest extends AbstractControllerTest {
                                                                          .getContentAsString(), new TypeReference<>() {
         });
         assertEquals("Unknown error", result.getMessage());
+    }
+
+    @Test
+    void insertChampionshipUnknownExceptionTest() throws Exception {
+        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime end = LocalDateTime.now().plusYears(1);
+        ChampionshipDto championshipDto = ChampionshipDto.builder().name("La casa di clank").startingDate(start)
+                .endingDate(end).build();
+        when(championshipService.createChampionship(championshipDto)).thenThrow(
+                new RuntimeException("Database unavailable"));
+
+        SimpleWrapper<ChampionshipDto> result = MAPPER.readValue(mvc.perform(
+                        post("/championship/insert-championship").contentType(
+                                MediaType.APPLICATION_JSON_VALUE).content(MAPPER.writeValueAsString(
+                                championshipDto))).andExpect(status().isInternalServerError())
+                                                                         .andReturn().getResponse()
+                                                                         .getContentAsString(), new TypeReference<>() {
+        });
+        assertEquals(UNKNOWN_ERROR_MESSAGE, result.getMessage());
     }
 
     @Test

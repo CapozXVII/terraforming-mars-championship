@@ -1,5 +1,6 @@
 package it.capozxvii.terraformingmars.controller;
 
+import static it.capozxvii.terraformingmars.controller.ControllerExceptionInterceptor.UNKNOWN_ERROR_MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -143,6 +144,20 @@ class PlayerControllerTest extends AbstractControllerTest {
                 new TypeReference<SimpleWrapper<PlayerDto>>() {
                 }).getMessage();
         assertEquals("Unknown error", res);
+    }
+
+    @Test
+    void deletePlayerUnknownExceptionTest() throws Exception {
+        doThrow(new RuntimeException("Unexpected delete failure")).when(playerService).deletePlayer(1L);
+        String res = MAPPER.readValue(
+                mvc.perform(delete("/player/delete-player").contentType(MediaType.APPLICATION_JSON_VALUE)
+                                    .content(MAPPER.writeValueAsString(1L)))
+                        .andExpect(status().isInternalServerError())
+                        .andReturn()
+                        .getResponse().getContentAsString(),
+                new TypeReference<SimpleWrapper<PlayerDto>>() {
+                }).getMessage();
+        assertEquals(UNKNOWN_ERROR_MESSAGE, res);
     }
 
     @Test

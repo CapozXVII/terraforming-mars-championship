@@ -2,7 +2,6 @@ package it.capozxvii.terraformingmars.controller;
 
 import it.capozxvii.terraformingmars.model.dto.DraftingDto;
 import it.capozxvii.terraformingmars.service.IDraftingService;
-import it.capozxvii.terraformingmars.util.exception.TerraformingMarsException;
 import it.capozxvii.terraformingmars.util.wrapper.CollectionWrapper;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -26,29 +25,17 @@ public class DraftingController {
     @PostMapping(value = "/insert-draftings")
     public ResponseEntity<CollectionWrapper<DraftingDto>> insertDrafting(
             @RequestBody final List<DraftingDto> draftingDtos) {
-        try {
-            return ResponseEntity.ok(
-                    CollectionWrapper.<DraftingDto>builder()
-                            .responseObject(draftingService.insertDrafting(draftingDtos)).build());
-        } catch (TerraformingMarsException terraformingMarsException) {
-            return ResponseEntity.internalServerError()
-                    .body(CollectionWrapper.<DraftingDto>builder().message(terraformingMarsException.getMessage())
-                                  .build());
-        }
+        return ResponseEntity.ok(
+                CollectionWrapper.<DraftingDto>builder()
+                        .responseObject(draftingService.insertDrafting(draftingDtos)).build());
     }
 
     @GetMapping(value = "/view-draftings")
     public ResponseEntity<CollectionWrapper<DraftingDto>> viewDraftings(
             @RequestParam("championshipId") final Long championshipId) {
-        try {
-            return ResponseEntity.ok(
-                    CollectionWrapper.<DraftingDto>builder()
-                            .responseObject(draftingService.viewDraftings(championshipId))
-                            .build());
-        } catch (TerraformingMarsException terraformingMarsException) {
-            return ResponseEntity.internalServerError()
-                    .body(CollectionWrapper.<DraftingDto>builder().message(terraformingMarsException.getMessage())
-                                  .build());
-        }
+        return ResponseEntity.ok(
+                CollectionWrapper.<DraftingDto>builder()
+                        .responseObject(draftingService.viewDraftings(championshipId))
+                        .build());
     }
 }
